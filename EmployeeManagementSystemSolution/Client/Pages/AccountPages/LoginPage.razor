@@ -33,7 +33,7 @@
 	Login User = new();
 	async Task HandleLogin()
 	{
-		var result = await accountService.SigInAsync(User);
+		var result = await accountService.SigninAsync(User);
 		if (result.Flag)
 		{
 			var customAuthStateProvider = (CustomAuthenticationStateProvider)AuthStateProvider;

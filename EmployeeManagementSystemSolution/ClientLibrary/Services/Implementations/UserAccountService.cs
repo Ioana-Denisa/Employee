@@ -10,7 +10,7 @@ namespace ClientLibrary.Services.Implementations
 {
     public class UserAccountService(GetHttpClient getHttpClient) : IUserAccountService
     {
-        public const string AuthUrl = "api/aithentication";
+        public const string AuthUrl = "api/authentication";
         public async Task<GeneralResponse> CreateAsync(RegisteredWaitHandle user)
         {
             var httpClient=getHttpClient.GetPublicHttpClient();
@@ -19,7 +19,7 @@ namespace ClientLibrary.Services.Implementations
 
             return await result.Content.ReadFromJsonAsync<GeneralResponse>()!;
         }
-        public async Task<LoginResponse> SigInAsync(Login user)
+        public async Task<LoginResponse> SigninAsync(Login user)
         {
             var httpClient = getHttpClient.GetPublicHttpClient();
             var result = await httpClient.PostAsJsonAsync($"{AuthUrl}/login", user);
@@ -28,16 +28,20 @@ namespace ClientLibrary.Services.Implementations
             return await result.Content.ReadFromJsonAsync<LoginResponse>()!;
         }
 
-        public Task<LoginResponse> RefreshTokenAsync(RefreshToken token)
+        public async Task<LoginResponse> RefreshTokenAsync(RefreshToken token)
         {
-            throw new NotImplementedException();
+            var httpClient = getHttpClient.GetPublicHttpClient();
+            var result = await httpClient.PostAsJsonAsync($"{AuthUrl}/refresh-token", token);
+            if (!result.IsSuccessStatusCode) return new LoginResponse(false, "Error occured!");
+
+            return await result.Content.ReadFromJsonAsync<LoginResponse>()!;
         }
 
 
         public async Task<WeatherForecast[]> GetWeatherForecast()
         {
             var httpClient = await getHttpClient.GetPrivateHttpClient();
-            var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>("api/wetherforecast");
+            var result = await httpClient.GetFromJsonAsync<WeatherForecast[]>("api/weatherforecast");
             return result;
         }
     }
