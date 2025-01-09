@@ -11,7 +11,7 @@ namespace ClientLibrary.Services.Implementations
     public class UserAccountService(GetHttpClient getHttpClient) : IUserAccountService
     {
         public const string AuthUrl = "api/authentication";
-        public async Task<GeneralResponse> CreateAsync(RegisteredWaitHandle user)
+        public async Task<GeneralResponse> CreateAsync(Register user)
         {
             var httpClient=getHttpClient.GetPublicHttpClient();
             var result = await httpClient.PostAsJsonAsync($"{AuthUrl}/register", user);
