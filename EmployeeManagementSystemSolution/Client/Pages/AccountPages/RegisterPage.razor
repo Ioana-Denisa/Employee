@@ -75,6 +75,13 @@
     public bool ShowLoadingButton { get; set; } = false;
     Register User = new();
 
+    [CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        await CheckUserAuthentication();
+    }
+
+
     async Task HandleRegistration()
     {
         ShowLoadingButton = true;
@@ -94,5 +101,15 @@
     private async Task DisplayDialog(string content, string title)
     {
         await DialogService.AlertAsync(content, title);
+    }
+
+    private async Task CheckUserAuthentication()
+    {
+        var user = (await AuthenticationState).User;
+        bool isUserAuthentication = user.Identity!.IsAuthenticated;
+        if (isUserAuthentication)
+        {
+            NavManager.NavigateTo("/home/dashboard");
+        }
     }
 }

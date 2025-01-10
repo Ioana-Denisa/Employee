@@ -1,0 +1,29 @@
+﻿@page "/"
+@inject NavigationManager NavManager
+
+
+@code {
+	[CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+	protected async override Task OnInitializedAsync()
+	{
+		var user = (await AuthenticationState).User;
+		if(user.Identity!.IsAuthenticated)
+		{
+			NavManager.NavigateTo("/home/dashboard");
+		}else
+		{
+			NavManager.NavigateTo("/identity/account/login");
+
+		}
+	}
+}
+
+<style>
+	body {
+		background: url('images/background.jpg') no-repeat center center fixed;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+	}
+</style>
