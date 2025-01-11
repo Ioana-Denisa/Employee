@@ -11,7 +11,11 @@ namespace ServerLibrary.Data
         public DbSet<GeneralDepartment> GeneralDepartments { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
+
+        public DbSet<Country> Countries{ get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<Town> Towns { get; set; }
+
 
         public DbSet<EquipmentTypes> EquipmentTypes { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
