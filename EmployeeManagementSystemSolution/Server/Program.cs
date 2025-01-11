@@ -6,6 +6,8 @@ using ServerLibrary.Repositories.Contracts;
 using ServerLibrary.Repositories.Implementations;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BaseLibrary.Entities;
+using Server.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,13 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddScoped<IUserAccount,UserAccountRepository>();
+
+builder.Services.AddScoped<IGenericRepository<GeneralDepartment>,GeneralDepartmentRepository>();
+builder.Services.AddScoped<IGenericRepository<Department>,DepartmentRepository>();
+builder.Services.AddScoped<IGenericRepository<Specialization>,SpecializationRepository>();
+builder.Services.AddScoped<IGenericRepository<Country>, CountryRepository>();
+builder.Services.AddScoped<IGenericRepository<City>,CityRepository>();
+builder.Services.AddScoped<IGenericRepository<Town>, TownRepository>();
 
 builder.Services.AddCors(options =>
 {
