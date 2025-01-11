@@ -9,7 +9,7 @@ namespace BaseLibrary.Entities
         public int EquipmentID {  get; set; }
         public int Quantity {  get; set; }
 
-        public Equipment equipment { get; set; }
+        public Equipment Equipment { get; set; }
 
     }
 }

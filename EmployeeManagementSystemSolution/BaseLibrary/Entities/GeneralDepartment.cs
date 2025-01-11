@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace BaseLibrary.Entities
 {
-    public class User
+    public class GeneralDepartment
     {
         public int ID { get; set; }
         [Required]
-        public string Username { get; set; }=string.Empty;
-        [Required,DataType(DataType.Password)]
-        public string Password { get; set; } = string.Empty;
-        [Required]
-        public string Email { get; set; } = string.Empty;
+        public string Name { get; set; }=string.Empty;
+        public List<Department>? Departments { get; set; }
     }
 }
