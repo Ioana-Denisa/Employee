@@ -9,8 +9,6 @@ namespace BaseLibrary.Entities
         public int ID {  get; set; }
         [Required]
         public string Name { get; set; }=string.Empty;
-        [Required]
-        public string Description { get; set; }=string.Empty;
         public int GeneralDepartmentID {  get; set; }
         public GeneralDepartment? GeneralDepartment { get; set; }
         public List<Specialization>? Specializations { get; set; }
