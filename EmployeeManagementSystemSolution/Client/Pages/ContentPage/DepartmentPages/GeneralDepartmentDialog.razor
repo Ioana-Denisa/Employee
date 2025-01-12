@@ -1,19 +1,15 @@
-﻿@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Popups
-@using BaseLibrary.Entities
-@inject SfDialogService dialogService
-
+﻿
 <SfDialog Width="350px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
 	<DialogEvents OnOpen="OpenDialog"></DialogEvents>
 	<DialogTemplates>
-		<Header>Add Department</Header>
+		<Header>@Title Department</Header>
 		<Content>
-			<EditForm  Model="Department" Enhance OnSubmit="Save">
+			<EditForm Model="GeneralDepartment" Enhance OnSubmit="Save">
 				<div class="card border-success">
 					<div class="card-body">
 						<div class="form-group">
 							<label class="form-label">Name</label>
-							<InputText @bind-Value="Department.Name" class="form-control"></InputText>
+							<InputText @bind-Value="GeneralDepartment.Name" class="form-control"></InputText>
 						</div>
 					</div>
 				</div>
@@ -22,15 +18,18 @@
 	</DialogTemplates>
 
 	<DialogButtons>
-		<DialogButton Content="SAVE" Type="ButtonType.Submit" IsPrimary="true" OnClick="Save"/>
+		<DialogButton Content="SAVE" Type="ButtonType.Submit" IsPrimary="true" OnClick="Save" />
 	</DialogButtons>
 </SfDialog>
 
 
 
 @code {
-	[Parameter] public GeneralDepartment Department { get; set; } = new();
+	[Parameter] public GeneralDepartment GeneralDepartment { get; set; } = new();
+	[Parameter] public EventCallback<GeneralDepartment> HandleSaveOperationEvent { get; set; }
 	private bool IsVisible { get; set; } = false;
+	public string Title { get; set; } = "Add";
+
 	public void OpenDialog()
 	{
 		IsVisible = true;
@@ -39,9 +38,16 @@
 
 	async void Save()
 	{
-		if(string.IsNullOrEmpty(Department.Name))
+		if (string.IsNullOrEmpty(GeneralDepartment.Name))
 		{
 			await dialogService.AlertAsync("You need to provide Department name.", "Alert!");
+		}else{
+			await HandleSaveOperationEvent.InvokeAsync(GeneralDepartment);
 		}
+	}
+
+	public void ChangeTitle(string title)
+	{
+		Title = title;
 	}
 }

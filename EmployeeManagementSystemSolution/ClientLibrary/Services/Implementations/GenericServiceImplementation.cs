@@ -42,7 +42,7 @@ namespace ClientLibrary.Services.Implementations
             var httpClient = await getHttpClient.GetPrivateHttpClient();
             var response = await httpClient.PutAsJsonAsync($"{baseUrl}/update", item);
             var result = await response.Content.ReadFromJsonAsync<GeneralResponse>();
-            return result!
+            return result!;
         }
     }
 }
