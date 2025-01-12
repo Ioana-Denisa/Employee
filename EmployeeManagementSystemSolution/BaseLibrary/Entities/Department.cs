@@ -1,6 +1,7 @@
 ﻿
 
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BaseLibrary.Entities
 {
@@ -11,6 +12,8 @@ namespace BaseLibrary.Entities
         public string Name { get; set; }=string.Empty;
         public int GeneralDepartmentID {  get; set; }
         public GeneralDepartment? GeneralDepartment { get; set; }
+        [JsonIgnore]
+
         public List<Specialization>? Specializations { get; set; }
 
     }

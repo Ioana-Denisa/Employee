@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 
 namespace BaseLibrary.Entities
@@ -8,6 +9,8 @@ namespace BaseLibrary.Entities
         public int ID { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
+        [JsonIgnore]
+
         public List<Equipment>? Equipments { get; set; }
     }
 }

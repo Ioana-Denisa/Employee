@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <Compile Remove="Entities\ApplicationStates\**" />
+    <EmbeddedResource Remove="Entities\ApplicationStates\**" />
+    <None Remove="Entities\ApplicationStates\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\ApplicationStates\" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 
 </Project>
