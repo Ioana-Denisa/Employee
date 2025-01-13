@@ -13,5 +13,7 @@ namespace BaseLibrary.Entities
         public int Size {  get; set; }
         public int SpecializationID {  get; set; }
         public Specialization? Specialization { get; set; }
+        public Stock? Stock { get; set; }
+        public int StockID {  get; set; }
     }
 }

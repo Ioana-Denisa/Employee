@@ -17,6 +17,6 @@ namespace BaseLibrary.Entities
 
         public List<Employee>? Employees { get; set; }
         [JsonIgnore]
-        public List<Equipment> Equipments { get; set; }
+        public List<Equipment>? Equipments { get; set; }
     }
 }
