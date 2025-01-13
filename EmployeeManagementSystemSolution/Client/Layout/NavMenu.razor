@@ -162,14 +162,47 @@
 		}
 	}
 
-	void GeneralDepartmentClicked() =>  allState.GeneralDepartmentClicked();
-	void DepartmentClicked() =>  allState.DepartmentClicked();
-	void SpecializationClicked() =>  allState.SpecializationClicked();
+	void GeneralDepartmentClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/generaldepartment");
+		allState.GeneralDepartmentClicked();
+	}
+	void DepartmentClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/department");
+		allState.DepartmentClicked();
+	}
+	void SpecializationClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/specialization");
+		allState.SpecializationClicked();
+	}
 
-	void CountryClicked() =>  allState.CountryClicked();
-	void CityClicked() =>  allState.CityClicked();
-	void TownClicked() =>  allState.TownClicked();
+	void CountryClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/country");
+		allState.CountryClicked();
+	}
 
-	void EmployeeClicked() =>  allState.EmployeeClicked();
-	void UserClicked() => allState.UserClicked();
+	void CityClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/city");
+		allState.CityClicked();
+	}
+	void TownClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/town");
+		allState.TownClicked();
+	}
+	void EmployeeClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/employee");
+		allState.EmployeeClicked();
+	}
+	void UserClicked()
+	{
+		NavManager.NavigateTo("/home/dashboard/user");
+		allState.UserClicked();
+	}
 }
+
