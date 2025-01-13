@@ -18,7 +18,10 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<List<Specialization>> GetAll() => await appDbContext.Specializations.ToListAsync();
+        public async Task<List<Specialization>> GetAll() => await appDbContext.Specializations
+            .AsNoTracking()
+            .Include(d=>d.Department)
+            .ToListAsync();
 
         public async Task<Specialization> GetByID(int id) => await appDbContext.Specializations.FindAsync(id);
 
@@ -35,6 +38,7 @@ namespace ServerLibrary.Repositories.Implementations
             var spec = await appDbContext.Specializations.FindAsync(item.ID);
             if (spec == null) return NotFound();
             spec.Name = item.Name;
+            spec.DepartmentID= item.DepartmentID;
             await Commit();
             return Success();
         }

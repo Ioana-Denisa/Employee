@@ -1,0 +1,174 @@
+﻿@implements IDisposable
+
+@if (allState.ShowSpecialization)
+{
+	<div class="container mt-5">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="float-start">Specializations</h4>
+						<button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
+							<i class="bi bi-plus-circle-dotted"></i>Add Specialization
+						</button>
+					</div>
+					<div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
+						<div class="card-body">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th scope="col">#</th>
+										<th scope="col">ID</th>
+										<th scope="col">Department</th>
+										<th scope="col">Specialization</th>
+										<th scope="col">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									@if (Specializations is not null)
+									{
+										int count = 1;
+										foreach (var item in Specializations)
+										{
+											<tr>
+												<th scope="row">@count</th>
+												<td>@item.ID</td>
+												<td>@item.Department!.Name</td>
+												<td>@item.Name</td>
+												<td>
+													<i class=" bi  bi-pencil text-info" id="cursorStyle"
+													   @onclick="()=>EditClicked(item)" />
+													<i class="bi bi-trash text-danger" id="cursorStyle"
+													   @onclick="()=>DeleteClicked(item)" />
+												</td>
+											</tr>
+											count++;
+										}
+									}
+									else
+									{
+										<tr>
+											<td colspan="4">
+												<div class="alert alert-info text-center">
+													No Specialization added yet!
+												</div>
+											</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+
+<style>
+	.cursorStyle {
+		cursor: pointer;
+	}
+</style>
+
+<SpecializationDialog @ref="specializationDialog"
+				  HandleSaveOperationEvent="HandleSaveOperationEvent"
+				  Departments="Departments"
+				  Specialization="Specialization" />
+
+@code {
+	SpecializationDialog? specializationDialog;
+	Specialization Specialization = new();
+	public string Title { get; set; } = "Add";
+	public List<Specialization> Specializations { get; set; } = new();
+	public List<Department> Departments { get; set; } = new();
+
+	protected async override Task OnInitializedAsync()
+	{
+		await GetSpecializations();
+		await GetDepartments();
+		allState.Action += StateHasChanged;
+	}
+
+	private async Task GetSpecializations()
+	{
+		Specializations = await specializationService.GetAll(Constants.SpecializationBaseUrl);
+	}
+
+	private async Task GetDepartments()
+	{
+		Departments = await departmentService.GetAll(Constants.DepartmentBaseUrl);
+	}
+
+	private async Task AddButtonClicked()
+	{
+		specializationDialog?.ChangeTitle("Add");
+		Specialization = new();
+		OpenDialog();
+	}
+
+	void OpenDialog()
+	{
+		specializationDialog?.OpenDialog();
+	}
+
+	private async Task HandleSaveOperationEvent(Specialization specialization)
+	{
+		bool successCheck = false;
+		if (specialization.ID > 0)
+		{
+			var result = await specializationService.Update(specialization, Constants.SpecializationBaseUrl);
+			successCheck = await DisplayMessage(result.Flag, result.Message);
+		}
+		else
+		{
+			var result = await specializationService.Insert(specialization, Constants.SpecializationBaseUrl);
+			successCheck = await DisplayMessage(result.Flag, result.Message);
+		}
+
+		if (successCheck)
+		{
+			Specialization = new();
+			await GetSpecializations();
+			specializationDialog?.ChangeTitle("Add");
+		}
+	}
+
+	private void EditClicked(Specialization spe)
+	{
+		specializationDialog?.ChangeTitle("Update");
+		Specialization = spe;
+		OpenDialog();
+	}
+
+	private async Task DeleteClicked(Specialization spe)
+	{
+		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {spe.Name}?", "Confirm delete!");
+		if (!confirm) return;
+
+		var response = await specializationService.DeleteByID(spe.ID, Constants.SpecializationBaseUrl);
+		var result = await DisplayMessage(response.Flag, response.Message);
+		if (result)
+			await GetSpecializations();
+	}
+
+	private async Task<bool> DisplayMessage(bool flag, string message)
+	{
+		if (flag)
+		{
+			await dialogService.AlertAsync(message, "Success!");
+			return true;
+		}
+		else
+		{
+			await dialogService.AlertAsync(message, "Alert!");
+			return false;
+		}
+	}
+
+	public void Dispose()
+	{
+		allState.Action -= StateHasChanged;
+	}
+}

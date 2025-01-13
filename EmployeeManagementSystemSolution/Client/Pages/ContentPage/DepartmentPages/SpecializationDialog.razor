@@ -1,0 +1,86 @@
+﻿
+
+
+<SfDialog Width="280px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
+	<DialogEvents OnOpen="OpenDialog"></DialogEvents>
+	<DialogTemplates>
+		<Header>@Title Specialization</Header>
+		<Content>
+			<EditForm Model="Specialization" Enhance OnSubmit="Save">
+				<div class="card border-success">
+					<div class="card-body">
+						<div class="form-group">
+							<label class="form-label">ID</label>
+							<input @bind="Specialization.ID" class="form-control" disable></input>
+						</div>
+						<div class="form-group">
+							<label class="form-label">Name</label>
+							<InputText @bind-Value="Specialization.Name" class="form-control"></InputText>
+						</div>
+						<div class="form-group mt-3 mb-3">
+							<label class="form-label">Select Specialization</label>
+
+							@if (Specialization.Department != null)
+							{
+								string selected = Specialization.Department!.Name;
+								<SfDropDownList TValue="string" TItem="Department" Placeholder="@selected" DataSource="Departments">
+									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+									<DropDownListEvents TValue="string" TItem="Department" ValueChange="OnValueChange"></DropDownListEvents>
+								</SfDropDownList>
+							}
+							else
+							{
+								<SfDropDownList TValue="string" TItem="Department" Placeholder="Select Department" DataSource="Departments">
+									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+									<DropDownListEvents TValue="string" TItem="Department" ValueChange="OnValueChange"></DropDownListEvents>
+								</SfDropDownList>
+							}
+						</div>
+					</div>
+				</div>
+			</EditForm>
+		</Content>
+	</DialogTemplates>
+
+	<DialogButtons>
+		<DialogButton Content="SAVE" Type="ButtonType.Submit" IsPrimary="true" OnClick="Save" />
+	</DialogButtons>
+</SfDialog>
+
+
+@code {
+	[Parameter] public Specialization Specialization { get; set; } = new();
+	[Parameter] public EventCallback<Specialization> HandleSaveOperationEvent { get; set; }
+	[Parameter] public List<Department> Departments{ get; set; } = new();
+
+	private bool IsVisible { get; set; } = false;
+	public string Title { get; set; } = "Add";
+
+	public void OpenDialog()
+	{
+		IsVisible = true;
+		StateHasChanged();
+	}
+
+	async void Save()
+	{
+		if (string.IsNullOrEmpty(Specialization.Name) || Specialization.DepartmentID<= 0)
+		{
+			await dialogService.AlertAsync("You need to provide Department name.", "Alert!");
+		}
+		else
+		{
+			await HandleSaveOperationEvent.InvokeAsync(Specialization);
+		}
+	}
+
+	public void ChangeTitle(string title)
+	{
+		Title = title;
+	}
+
+	public void OnValueChange(ChangeEventArgs<string, Department> args)
+	{
+		Specialization.DepartmentID = int.Parse(args.Value);
+	}
+}
