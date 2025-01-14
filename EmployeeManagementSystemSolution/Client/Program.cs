@@ -44,7 +44,7 @@ builder.Services.AddScoped<AllState>();
 
 builder.Services.AddSyncfusionBlazor();
 builder.Services.AddScoped<SfDialogService>();
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzY2OTgyM0AzMjM4MmUzMDJlMzBJSHh2Nk1kaTZHSU9GWEE0WmJVWndqRkx0V3pheEhOMjlaOTVZSWljSlcwPQ==");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NHaF5cXmVCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdmWX5fc3VUQ2NdV0BxX0I=");
 
 
 await builder.Build().RunAsync();

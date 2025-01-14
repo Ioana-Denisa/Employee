@@ -1,17 +1,15 @@
 ﻿@implements IDisposable
 
-
-
-@if (allState.ShowGeneralDepartment)
+@if (allState.ShowTown)
 {
 	<div class="container mt-5">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="float-start">General Department</h4>
-						<button class="btn btn-outline-success float-end" @onclick="OpenDialog">
-							<i class="bi bi-plus-circle-dotted"></i>Add Department
+						<h4 class="float-start">Towns</h4>
+						<button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
+							<i class="bi bi-plus-circle-dotted"></i>Add Town
 						</button>
 					</div>
 					<div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
@@ -21,25 +19,27 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">ID</th>
-										<th scope="col">Department</th>
+										<th scope="col">City</th>
+										<th scope="col">Town</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (GeneralDepartments is not null)
+									@if (Towns is not null)
 									{
 										int count = 1;
-										foreach (var item in GeneralDepartments)
+										foreach (var item in Towns)
 										{
 											<tr>
 												<th scope="row">@count</th>
 												<td>@item.ID</td>
+												<td>@item.City!.Name</td>
 												<td>@item.Name</td>
 												<td>
 													<i class=" bi  bi-pencil text-info" id="cursorStyle"
-													@onclick="()=>EditClicked(item)" />
+													   @onclick="()=>EditClicked(item)" />
 													<i class="bi bi-trash text-danger" id="cursorStyle"
-													@onclick="()=>DeleteClicked(item)" />
+													   @onclick="()=>DeleteClicked(item)" />
 												</td>
 											</tr>
 											count++;
@@ -50,7 +50,7 @@
 										<tr>
 											<td colspan="4">
 												<div class="alert alert-info text-center">
-													No Department added yet!
+													No Town added yet!
 												</div>
 											</td>
 										</tr>
@@ -66,74 +66,91 @@
 }
 
 
-<GeneralDepartmentDialog @ref="generalDepartmentDialog"
-HandleSaveOperationEvent="HandleSaveOperatioEvent"
-GeneralDepartment="GeneralDepartment" />
-
 <style>
-	.cursorStyle{
-		cursor:pointer;
+	.cursorStyle {
+		cursor: pointer;
 	}
 </style>
 
+<TownDialog @ref="townDialog"
+			HandleSaveOperationEvent="HandleSaveOperationEvent"
+			Town="Town"
+			Cities="Cities" />
+
 @code {
-	GeneralDepartmentDialog? generalDepartmentDialog;
-	GeneralDepartment GeneralDepartment = new();
+	TownDialog? townDialog;
+	Town Town = new();
 	public string Title { get; set; } = "Add";
-	public List<GeneralDepartment> GeneralDepartments { get; set; } = new();
+	public List<Town> Towns{ get; set; } = new();
+	public List<City> Cities { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
-		await GetGeneralDepartments();
+		await GetTowns();
+		await GetCities();
 		allState.Action += StateHasChanged;
 	}
-	private async Task GetGeneralDepartments()
+
+	private async Task GetTowns()
 	{
-		GeneralDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+		Towns = await townService.GetAll(Constants.TownBaseUrl);
+	}
+
+	private async Task GetCities()
+	{
+		Cities = await cityService.GetAll(Constants.CityBaseUrl);
+	}
+
+	private async Task AddButtonClicked()
+	{
+		townDialog?.ChangeTitle("Add");
+		Town = new();
+		OpenDialog();
 	}
 
 	void OpenDialog()
 	{
-		generalDepartmentDialog?.OpenDialog();
+		townDialog?.OpenDialog();
 	}
 
-	private async Task HandleSaveOperatioEvent(GeneralDepartment generalDepartment)
+	private async Task HandleSaveOperationEvent(Town town)
 	{
 		bool successCheck = false;
-		if (generalDepartment.ID > 0)
+		if (town.ID > 0)
 		{
-			var result = await generalDepartmentService.Update(generalDepartment, Constants.GeneralDepartmentBaseUrl);
+			var result = await townService.Update(town, Constants.TownBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 		else
 		{
-			var result = await generalDepartmentService.Insert(generalDepartment, Constants.GeneralDepartmentBaseUrl);
+			var result = await townService.Insert(town, Constants.TownBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 
 		if (successCheck)
 		{
-			GeneralDepartment = new();
-			await GetGeneralDepartments();
-			generalDepartmentDialog?.ChangeTitle("Add");
+			Town = new();
+			await GetTowns();
+			townDialog?.ChangeTitle("Add");
 		}
 	}
 
-	private void EditClicked(GeneralDepartment dep)
+	private void EditClicked(Town town)
 	{
-		generalDepartmentDialog?.ChangeTitle("Update");
-		GeneralDepartment = dep;
+		townDialog?.ChangeTitle("Update");
+		Town = town;
 		OpenDialog();
 	}
 
-	private async Task DeleteClicked(GeneralDepartment dep)
+	private async Task DeleteClicked(Town town)
 	{
-		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {dep.Name}?", "Confirm delete!");
+		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {town.Name}?", "Confirm delete!");
 		if (!confirm) return;
 
-		var response =await generalDepartmentService.DeleteByID(dep.ID,Constants.GeneralDepartmentBaseUrl);
-		if (await DisplayMessage(response.Flag, response.Message))
-			await GetGeneralDepartments();
+		var response = await townService.DeleteByID(town.ID, Constants.TownBaseUrl);
+		var result = await DisplayMessage(response.Flag, response.Message);
+		if (result)
+			await GetTowns();
 	}
 
 	private async Task<bool> DisplayMessage(bool flag, string message)

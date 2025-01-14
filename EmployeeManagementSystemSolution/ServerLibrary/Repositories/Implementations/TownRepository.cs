@@ -3,11 +3,7 @@ using BaseLibrary.Response;
 using Microsoft.EntityFrameworkCore;
 using ServerLibrary.Data;
 using ServerLibrary.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ServerLibrary.Repositories.Implementations
 {
@@ -23,13 +19,17 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<List<Town>> GetAll() => await appDbContext.Towns.ToListAsync();
+        public async Task<List<Town>> GetAll() => await appDbContext
+            .Towns
+            .AsNoTracking()
+            .Include(c=>c.City)
+            .ToListAsync();
 
         public async Task<Town> GetByID(int id) => await appDbContext.Towns.FindAsync(id);
 
         public async Task<GeneralResponse> Insert(Town item)
         {
-            if (!await CheckName(item.Name!)) return new GeneralResponse(false, "This country already added!");
+            if (!await CheckName(item.Name!)) return new GeneralResponse(false, "This town already added!");
             appDbContext.Towns.Add(item);
             await Commit();
             return Success();
@@ -40,11 +40,12 @@ namespace ServerLibrary.Repositories.Implementations
             var town = await appDbContext.Towns.FindAsync(item.ID);
             if (town == null) return NotFound();
             town.Name = item.Name;
+            town.CityID = item.CityID;
             await Commit();
             return Success();
         }
 
-        private static GeneralResponse NotFound() => new GeneralResponse(false, "Sorry, country not found!");
+        private static GeneralResponse NotFound() => new GeneralResponse(false, "Sorry, town not found!");
         private static GeneralResponse Success() => new GeneralResponse(true, "Process completed!");
         private async Task Commit() => await appDbContext.SaveChangesAsync();
         private async Task<bool> CheckName(string name)
