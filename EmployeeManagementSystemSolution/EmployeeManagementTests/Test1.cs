@@ -30,5 +30,19 @@ namespace EmployeeManagementTests
         }
     }
 
+    [TestClass]
+    public class RedirectTests : PageTest
+    {
+        [TestMethod]
+        public async Task SignUpButtonIsClicked()
+        {
+            await Page.GotoAsync("https://localhost:7195/identity/account/login");
+            await Page.WaitForSelectorAsync("a:has-text('Sign Up')", new() { State = WaitForSelectorState.Visible });
+            await Page.ClickAsync("a:has-text('Sign Up')");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
+            var currentUrl = Page.Url;
+            Assert.AreEqual("https://localhost:7195/identity/account/register", currentUrl, "Redirecționarea nu a avut loc corect.");
+        }
+    }
 }
