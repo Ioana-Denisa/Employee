@@ -7,7 +7,7 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="float-start">Cities</h4>
+						<h4 class="float-start">County</h4>
 						<button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
 							<i class="bi bi-plus-circle-dotted"></i>Add City
 						</button>
@@ -20,15 +20,15 @@
 										<th scope="col">#</th>
 										<th scope="col">ID</th>
 										<th scope="col">Country</th>
-										<th scope="col">City</th>
+										<th scope="col">Name</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (Cities is not null)
+									@if (Counties is not null)
 									{
 										int count = 1;
-										foreach (var item in Cities)
+										foreach (var item in Counties)
 										{
 											<tr>
 												<th scope="row">@count</th>
@@ -50,7 +50,7 @@
 										<tr>
 											<td colspan="4">
 												<div class="alert alert-info text-center">
-													No City added yet!
+													No County added yet!
 												</div>
 											</td>
 										</tr>
@@ -72,17 +72,17 @@
 	}
 </style>
 
-<CityDialog @ref="cityDialog"
-				  HandleSaveOperationEvent="HandleSaveOperationEvent"
-				  City="City"
-				  Countries="Countries" />
+<CountyDialog @ref="countyDialog"
+			  HandleSaveOperationEvent="HandleSaveOperationEvent"
+			  County="County"
+			  Countries="Countries" />
 
 @code {
-	CityDialog? cityDialog;
-	County City = new();
+	CountyDialog? countyDialog;
+	County County = new();
 	public string Title { get; set; } = "Add";
 	public List<Country> Countries { get; set; } = new();
-	public List<County> Cities { get; set; } = new();
+	public List<County> Counties { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -98,19 +98,19 @@
 
 	private async Task GetCities()
 	{
-		Cities = await cityService.GetAll(Constants.CityBaseUrl);
+		Counties = await cityService.GetAll(Constants.CityBaseUrl);
 	}
 
 	private async Task AddButtonClicked()
 	{
-		cityDialog?.ChangeTitle("Add");
-		City = new();
+		countyDialog?.ChangeTitle("Add");
+		County = new();
 		OpenDialog();
 	}
 
 	void OpenDialog()
 	{
-		cityDialog?.OpenDialog();
+		countyDialog?.OpenDialog();
 	}
 
 	private async Task HandleSaveOperationEvent(County city)
@@ -129,16 +129,16 @@
 
 		if (successCheck)
 		{
-			City = new();
+			County = new();
 			await GetCities();
-			cityDialog?.ChangeTitle("Add");
+			countyDialog?.ChangeTitle("Add");
 		}
 	}
 
 	private void EditClicked(County city)
 	{
-		cityDialog?.ChangeTitle("Update");
-		City = city;
+		countyDialog?.ChangeTitle("Update");
+		County = city;
 		OpenDialog();
 	}
 

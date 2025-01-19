@@ -9,9 +9,9 @@
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="float-start">General Department</h4>
+						<h4 class="float-start">Division</h4>
 						<button class="btn btn-outline-success float-end" @onclick="OpenDialog">
-							<i class="bi bi-plus-circle-dotted"></i>Add Department
+							<i class="bi bi-plus-circle-dotted"></i>Add Division
 						</button>
 					</div>
 					<div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
@@ -21,15 +21,15 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">ID</th>
-										<th scope="col">Department</th>
+										<th scope="col">Name</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (GeneralDepartments is not null)
+									@if (Divisions is not null)
 									{
 										int count = 1;
-										foreach (var item in GeneralDepartments)
+										foreach (var item in Divisions)
 										{
 											<tr>
 												<th scope="row">@count</th>
@@ -66,9 +66,9 @@
 }
 
 
-<GeneralDepartmentDialog @ref="generalDepartmentDialog"
+<DivisionDialog @ref="divisionDialog"
 HandleSaveOperationEvent="HandleSaveOperatioEvent"
-GeneralDepartment="GeneralDepartment" />
+				Division="Division" />
 
 <style>
 	.cursorStyle{
@@ -77,10 +77,10 @@ GeneralDepartment="GeneralDepartment" />
 </style>
 
 @code {
-	GeneralDepartmentDialog? generalDepartmentDialog;
-	Division GeneralDepartment = new();
+	DivisionDialog? divisionDialog;
+	Division Division = new();
 	public string Title { get; set; } = "Add";
-	public List<Division> GeneralDepartments { get; set; } = new();
+	public List<Division> Divisions { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -89,12 +89,12 @@ GeneralDepartment="GeneralDepartment" />
 	}
 	private async Task GetGeneralDepartments()
 	{
-		GeneralDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+		Divisions = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
 	}
 
 	void OpenDialog()
 	{
-		generalDepartmentDialog?.OpenDialog();
+		divisionDialog?.OpenDialog();
 	}
 
 	private async Task HandleSaveOperatioEvent(Division generalDepartment)
@@ -113,16 +113,16 @@ GeneralDepartment="GeneralDepartment" />
 
 		if (successCheck)
 		{
-			GeneralDepartment = new();
+			Division = new();
 			await GetGeneralDepartments();
-			generalDepartmentDialog?.ChangeTitle("Add");
+			divisionDialog?.ChangeTitle("Add");
 		}
 	}
 
 	private void EditClicked(Division dep)
 	{
-		generalDepartmentDialog?.ChangeTitle("Update");
-		GeneralDepartment = dep;
+		divisionDialog?.ChangeTitle("Update");
+		Division = dep;
 		OpenDialog();
 	}
 

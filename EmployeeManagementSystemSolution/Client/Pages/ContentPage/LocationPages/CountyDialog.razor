@@ -2,25 +2,25 @@
 <SfDialog Width="280px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
 	<DialogEvents OnOpen="OpenDialog"></DialogEvents>
 	<DialogTemplates>
-		<Header>@Title City</Header>
+		<Header>@Title County</Header>
 		<Content>
-			<EditForm Model="City" Enhance OnSubmit="Save">
+			<EditForm Model="County" Enhance OnSubmit="Save">
 				<div class="card border-success">
 					<div class="card-body">
 						<div class="form-group">
 							<label class="form-label">ID</label>
-							<input @bind="City.ID" class="form-control" disable></input>
+							<input @bind="County.ID" class="form-control" disable></input>
 						</div>
 						<div class="form-group">
 							<label class="form-label">Name</label>
-							<InputText @bind-Value="City.Name" class="form-control"></InputText>
+							<InputText @bind-Value="County.Name" class="form-control"></InputText>
 						</div>
 						<div class="form-group mt-3 mb-3">
-							<label class="form-label">Select City</label>
+							<label class="form-label">Select County</label>
 
-							@if (City.Country != null)
+							@if (County.Country != null)
 							{
-								string selected = City.Country!.Name;
+								string selected = County.Country!.Name;
 								<SfDropDownList TValue="string" TItem="Country" Placeholder="@selected" DataSource="Countries">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="Country" ValueChange="OnValueChange"></DropDownListEvents>
@@ -47,7 +47,7 @@
 
 
 @code {
-	[Parameter] public County City { get; set; } = new();
+	[Parameter] public County County { get; set; } = new();
 	[Parameter] public EventCallback<County> HandleSaveOperationEvent { get; set; }
 	[Parameter] public List<Country> Countries { get; set; } = new();
 
@@ -62,13 +62,13 @@
 
 	async void Save()
 	{
-		if (string.IsNullOrEmpty(City.Name) || City.CountryID <= 0)
+		if (string.IsNullOrEmpty(County.Name) || County.CountryID <= 0)
 		{
 			await dialogService.AlertAsync("You need to provide City name.", "Alert!");
 		}
 		else
 		{
-			await HandleSaveOperationEvent.InvokeAsync(City);
+			await HandleSaveOperationEvent.InvokeAsync(County);
 		}
 	}
 
@@ -79,6 +79,6 @@
 
 	public void OnValueChange(ChangeEventArgs<string, Country> args)
 	{
-		City.CountryID = int.Parse(args.Value);
+		County.CountryID = int.Parse(args.Value);
 	}
 }

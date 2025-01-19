@@ -21,14 +21,14 @@
 							@if (Town.County!= null)
 							{
 								string selected = Town.County!.Name;
-								<SfDropDownList TValue="string" TItem="County" Placeholder="@selected" DataSource="Cities">
+								<SfDropDownList TValue="string" TItem="County" Placeholder="@selected" DataSource="Counties">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="County" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}
 							else
 							{
-								<SfDropDownList TValue="string" TItem="County" Placeholder="Select City" DataSource="Cities">
+								<SfDropDownList TValue="string" TItem="County" Placeholder="Select City" DataSource="Counties">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="County" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
@@ -49,7 +49,7 @@
 @code {
 	[Parameter] public Town Town { get; set; } = new();
 	[Parameter] public EventCallback<Town> HandleSaveOperationEvent { get; set; }
-	[Parameter] public List<County> Cities{ get; set; } = new();
+	[Parameter] public List<County> Counties{ get; set; } = new();
 
 	private bool IsVisible { get; set; } = false;
 	public string Title { get; set; } = "Add";

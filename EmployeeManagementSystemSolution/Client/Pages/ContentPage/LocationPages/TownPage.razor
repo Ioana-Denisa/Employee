@@ -75,14 +75,14 @@
 <TownDialog @ref="townDialog"
 			HandleSaveOperationEvent="HandleSaveOperationEvent"
 			Town="Town"
-			Cities="Cities" />
+			Counties="Counties" />
 
 @code {
 	TownDialog? townDialog;
 	Town Town = new();
 	public string Title { get; set; } = "Add";
 	public List<Town> Towns{ get; set; } = new();
-	public List<County> Cities { get; set; } = new();
+	public List<County> Counties { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -98,7 +98,7 @@
 
 	private async Task GetCities()
 	{
-		Cities = await cityService.GetAll(Constants.CityBaseUrl);
+		Counties = await cityService.GetAll(Constants.CityBaseUrl);
 	}
 
 	private async Task AddButtonClicked()

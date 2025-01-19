@@ -19,7 +19,7 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">ID</th>
-										<th scope="col">General Department</th>
+										<th scope="col">Division</th>
 										<th scope="col">Department</th>
 										<th scope="col">Action</th>
 									</tr>
@@ -75,13 +75,13 @@
 <DepartmentDialog @ref="departmentDialog"
 				  HandleSaveOperationEvent="HandleSaveOperationEvent"
 				  Department="Department"
-				  GeneralDepartments="GeneralDepartments" />
+				  Divisions="Divisions" />
 
 @code {
 	DepartmentDialog? departmentDialog;
 	Department Department = new();
 	public string Title { get; set; } = "Add";
-	public List<Division> GeneralDepartments { get; set; } = new();
+	public List<Division> Divisions { get; set; } = new();
 	public List<Department> Departments { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
@@ -93,7 +93,7 @@
 
 	private async Task GetGeneralDepartments()
 	{
-		GeneralDepartments = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+		Divisions = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
 	}
 
 	private async Task GetDepartments()
