@@ -45,50 +45,6 @@
 
 ## Instalation
 
-**Client**:
-- Blazored.LocalStorage
-- Microsoft.AspNetCore.Components.Authorization
-- Microsoft.AspNetCore.Components.WebAssembly
-- Microsoft.AspNetCore.Components.WebAssembly.DevServer
-- Microsoft.Extensions.Http
-- Syncfusion.Blazor.DropDowns
-- Syncfusion.Blazor.Buttons
-- Syncfusion.Blazor.Popups
-- Syncfusion.Blazor.Themes
-
-**Server**:
-- Microsoft.AspNetCore.Authentication.JwtBearer
-- Microsoft.EntityFrameworkCore
-- Microsoft.EntityFrameworkCore.SqlServer
-- Microsoft.EntityFrameworkCore.Tools
-- Microsoft.IdentityModel.Tokens
-- Swashbuckle.AspNetCore
-- Swashbuckle.AspNetCore.Filters
-- System.IdentityModel.Tokens.Jwt
-
-**Base Library**:
-- AutoMapper
-
-**Client Library**:
-- Blazored.LocalStorage
-- Microsoft.AspNetCore.Components.Authorization
-- Microsoft.Extensions.Http
-- System.IdentityModel.Tokens.Jwt
-
-**Server Library**:
-- BCrypt.Net-Next
-- Microsoft.AspNetCore.Authentication.JwtBearer
-- Microsoft.EntityFrameworkCore
-- Microsoft.EntityFrameworkCore.SqlServer
-- Microsoft.EntityFrameworkCore.Tools
-- Microsoft.IdentityModel.Tokens
-- System.IdentityModel.Tokens.Jwt
-
-**EmployeeManagementTests**:
-- Microsoft.NET.Test.Sdk
-- Microsoft.Playwright
-- Microsoft.Playwright.MSTest
-- MSTest
-- xunit.extensibility.core
-  
+- Visual Studio
+- SQL Server
 
