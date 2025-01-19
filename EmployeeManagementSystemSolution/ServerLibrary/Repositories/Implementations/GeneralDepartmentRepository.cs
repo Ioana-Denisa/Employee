@@ -11,31 +11,31 @@ namespace ServerLibrary.Repositories.Implementations
     {
         public async Task<GeneralResponse> DeleteByID(int id)
         {
-            var department = await appDbContext.GeneralDepartments.FindAsync(id);
+            var department = await appDbContext.Divisions.FindAsync(id);
             if (department == null) return NotFound();
 
-            appDbContext.GeneralDepartments.Remove(department);
+            appDbContext.Divisions.Remove(department);
             await Commit();
             return Success();
         }
 
-        public async Task<List<Division>> GetAll() => await appDbContext.GeneralDepartments.ToListAsync();
+        public async Task<List<Division>> GetAll() => await appDbContext.Divisions.ToListAsync();
 
-        public async Task<Division> GetByID(int id) => await appDbContext.GeneralDepartments.FindAsync(id);
+        public async Task<Division> GetByID(int id) => await appDbContext.Divisions.FindAsync(id);
 
         public async Task<GeneralResponse> Insert(Division item)
         {
             var checkIfIsNull = await CheckName(item.Name);
             if (!checkIfIsNull)
                 return new GeneralResponse(false, "This department already added!");
-            appDbContext.GeneralDepartments.Add(item);
+            appDbContext.Divisions.Add(item);
             await Commit();
             return Success();
         }
 
         public async Task<GeneralResponse> Update(Division item)
         {
-            var dep = await appDbContext.GeneralDepartments.FindAsync(item.ID);
+            var dep = await appDbContext.Divisions.FindAsync(item.ID);
             if (dep == null) return NotFound();
             dep.Name = item.Name;
             await Commit();
@@ -47,7 +47,7 @@ namespace ServerLibrary.Repositories.Implementations
         private async Task Commit() => await appDbContext.SaveChangesAsync();
         private async Task<bool> CheckName(string name)
         {
-            var item = await appDbContext.GeneralDepartments.FirstOrDefaultAsync(x => x.Name!.ToLower().Equals(name.ToLower()));
+            var item = await appDbContext.Divisions.FirstOrDefaultAsync(x => x.Name!.ToLower().Equals(name.ToLower()));
             return item is null;
         }
     }

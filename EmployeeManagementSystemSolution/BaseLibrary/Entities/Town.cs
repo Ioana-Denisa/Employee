@@ -8,8 +8,8 @@ namespace BaseLibrary.Entities
         public int ID { get; set; }
         [Required]
         public string Name { get; set; } = string.Empty;
-        public int CityID { get; set; }
+        public int CountyID { get; set; }
         public List<Employee>? Employees { get; set; }
-        public County? City { get; set; }
+        public County? County { get; set; }
     }
 }

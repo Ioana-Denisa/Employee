@@ -22,7 +22,7 @@ namespace ServerLibrary.Repositories.Implementations
         public async Task<List<Town>> GetAll() => await appDbContext
             .Towns
             .AsNoTracking()
-            .Include(c=>c.City)
+            .Include(c=>c.County)
             .ToListAsync();
 
         public async Task<Town> GetByID(int id) => await appDbContext.Towns.FindAsync(id);
@@ -40,7 +40,7 @@ namespace ServerLibrary.Repositories.Implementations
             var town = await appDbContext.Towns.FindAsync(item.ID);
             if (town == null) return NotFound();
             town.Name = item.Name;
-            town.CityID = item.CityID;
+            town.CountyID = item.CountyID;
             await Commit();
             return Success();
         }

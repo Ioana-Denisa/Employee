@@ -10,33 +10,33 @@ namespace ServerLibrary.Repositories.Implementations
     {
         public async Task<GeneralResponse> DeleteByID(int id)
         {
-            var city = await appDbContext.Cities.FindAsync(id);
+            var city = await appDbContext.Counties.FindAsync(id);
             if (city == null) return NotFound();
 
-            appDbContext.Cities.Remove(city);
+            appDbContext.Counties.Remove(city);
             await Commit();
             return Success();
         }
 
         public async Task<List<County>> GetAll() => await appDbContext
-            .Cities
+            .Counties
             .AsNoTracking()
             .Include(gd => gd.Country)
             .ToListAsync();
 
-        public async Task<County> GetByID(int id) => await appDbContext.Cities.FindAsync(id);
+        public async Task<County> GetByID(int id) => await appDbContext.Counties.FindAsync(id);
 
         public async Task<GeneralResponse> Insert(County item)
         {
             if (!await CheckName(item.Name!)) return new GeneralResponse(false, "This city already added!");
-            appDbContext.Cities.Add(item);
+            appDbContext.Counties.Add(item);
             await Commit();
             return Success();
         }
 
         public async Task<GeneralResponse> Update(County item)
         {
-            var city = await appDbContext.Cities.FindAsync(item.ID);
+            var city = await appDbContext.Counties.FindAsync(item.ID);
             if (city == null) return NotFound();
             city.Name = item.Name;
             city.CountryID= item.CountryID;
@@ -49,7 +49,7 @@ namespace ServerLibrary.Repositories.Implementations
         private async Task Commit() => await appDbContext.SaveChangesAsync();
         private async Task<bool> CheckName(string name)
         {
-            var item = await appDbContext.Cities.FirstOrDefaultAsync(x => x.Name!.ToLower().Equals(name.ToLower()));
+            var item = await appDbContext.Counties.FirstOrDefaultAsync(x => x.Name!.ToLower().Equals(name.ToLower()));
             return item is null;
         }
     }

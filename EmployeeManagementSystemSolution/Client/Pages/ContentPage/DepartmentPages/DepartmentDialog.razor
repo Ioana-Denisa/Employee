@@ -18,9 +18,9 @@
 						<div class="form-group mt-3 mb-3" >
 							<label class="form-label">Select General Department</label>
 
-							@if(Department.GeneralDepartment!=null)
+							@if(Department.Division!=null)
 							{
-								string selected = Department.GeneralDepartment!.Name;
+								string selected = Department.Division!.Name;
 								<SfDropDownList TValue="string" TItem="Division" Placeholder="@selected" DataSource="GeneralDepartments">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="Division" ValueChange="OnValueChange"></DropDownListEvents>
@@ -61,7 +61,7 @@
 
 	async void Save()
 	{
-		if (string.IsNullOrEmpty(Department.Name) || Department.GeneralDepartmentID<=0)
+		if (string.IsNullOrEmpty(Department.Name) || Department.DivisionID<=0)
 		{
 			await dialogService.AlertAsync("You need to provide Department name.", "Alert!");
 		}
@@ -78,6 +78,6 @@
 
 	public void OnValueChange(ChangeEventArgs<string, Division>args)
 	{
-		Department.GeneralDepartmentID = int.Parse(args.Value);
+		Department.DivisionID = int.Parse(args.Value);
 	}
 }
