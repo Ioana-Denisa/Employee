@@ -8,12 +8,12 @@ namespace ServerLibrary.Data
     {
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeTypes> EmployeeTypes { get; set; }
-        public DbSet<GeneralDepartment> GeneralDepartments { get; set; }
+        public DbSet<Division> GeneralDepartments { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
 
         public DbSet<Country> Countries{ get; set; }
-        public DbSet<City> Cities { get; set; }
+        public DbSet<County> Cities { get; set; }
         public DbSet<Town> Towns { get; set; }
 
 

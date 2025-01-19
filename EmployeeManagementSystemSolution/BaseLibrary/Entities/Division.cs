@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BaseLibrary.Entities
 {
-    public class GeneralDepartment
+    public class Division
     {
         public int ID { get; set; }
         [Required]

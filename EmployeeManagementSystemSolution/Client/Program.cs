@@ -30,12 +30,12 @@ builder.Services.AddScoped<LocalStorageService>();
 builder.Services.AddScoped<AuthenticationStateProvider,CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<IUserAccountService,UserAccountService>();
 
-builder.Services.AddScoped<IGenericService<GeneralDepartment>,GenericServiceImplementation<GeneralDepartment>>();
+builder.Services.AddScoped<IGenericService<Division>,GenericServiceImplementation<Division>>();
 builder.Services.AddScoped<IGenericService<Department>,GenericServiceImplementation<Department>>();
 builder.Services.AddScoped<IGenericService<Specialization>,GenericServiceImplementation<Specialization>>();
 
 builder.Services.AddScoped<IGenericService<Country>,GenericServiceImplementation<Country>>();
-builder.Services.AddScoped<IGenericService<City>,GenericServiceImplementation<City>>();
+builder.Services.AddScoped<IGenericService<County>,GenericServiceImplementation<County>>();
 builder.Services.AddScoped<IGenericService<Town>,GenericServiceImplementation<Town>>();
 
 builder.Services.AddScoped<IGenericService<Employee>,GenericServiceImplementation<Employee>>();

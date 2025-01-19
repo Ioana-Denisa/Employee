@@ -79,10 +79,10 @@
 
 @code {
 	CityDialog? cityDialog;
-	City City = new();
+	County City = new();
 	public string Title { get; set; } = "Add";
 	public List<Country> Countries { get; set; } = new();
-	public List<City> Cities { get; set; } = new();
+	public List<County> Cities { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -113,7 +113,7 @@
 		cityDialog?.OpenDialog();
 	}
 
-	private async Task HandleSaveOperationEvent(City city)
+	private async Task HandleSaveOperationEvent(County city)
 	{
 		bool successCheck = false;
 		if (city.ID > 0)
@@ -135,14 +135,14 @@
 		}
 	}
 
-	private void EditClicked(City city)
+	private void EditClicked(County city)
 	{
 		cityDialog?.ChangeTitle("Update");
 		City = city;
 		OpenDialog();
 	}
 
-	private async Task DeleteClicked(City city)
+	private async Task DeleteClicked(County city)
 	{
 		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {city.Name}?", "Confirm delete!");
 		if (!confirm) return;

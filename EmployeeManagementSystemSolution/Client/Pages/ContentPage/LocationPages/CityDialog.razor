@@ -47,8 +47,8 @@
 
 
 @code {
-	[Parameter] public City City { get; set; } = new();
-	[Parameter] public EventCallback<City> HandleSaveOperationEvent { get; set; }
+	[Parameter] public County City { get; set; } = new();
+	[Parameter] public EventCallback<County> HandleSaveOperationEvent { get; set; }
 	[Parameter] public List<Country> Countries { get; set; } = new();
 
 	private bool IsVisible { get; set; } = false;

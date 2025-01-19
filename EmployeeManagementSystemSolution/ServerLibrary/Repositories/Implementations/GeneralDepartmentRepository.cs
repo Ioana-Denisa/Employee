@@ -7,7 +7,7 @@ using ServerLibrary.Repositories.Contracts;
 
 namespace ServerLibrary.Repositories.Implementations
 {
-    public class GeneralDepartmentRepository(AppDbContext appDbContext) : IGenericRepository<GeneralDepartment>
+    public class GeneralDepartmentRepository(AppDbContext appDbContext) : IGenericRepository<Division>
     {
         public async Task<GeneralResponse> DeleteByID(int id)
         {
@@ -19,11 +19,11 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<List<GeneralDepartment>> GetAll() => await appDbContext.GeneralDepartments.ToListAsync();
+        public async Task<List<Division>> GetAll() => await appDbContext.GeneralDepartments.ToListAsync();
 
-        public async Task<GeneralDepartment> GetByID(int id) => await appDbContext.GeneralDepartments.FindAsync(id);
+        public async Task<Division> GetByID(int id) => await appDbContext.GeneralDepartments.FindAsync(id);
 
-        public async Task<GeneralResponse> Insert(GeneralDepartment item)
+        public async Task<GeneralResponse> Insert(Division item)
         {
             var checkIfIsNull = await CheckName(item.Name);
             if (!checkIfIsNull)
@@ -33,7 +33,7 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<GeneralResponse> Update(GeneralDepartment item)
+        public async Task<GeneralResponse> Update(Division item)
         {
             var dep = await appDbContext.GeneralDepartments.FindAsync(item.ID);
             if (dep == null) return NotFound();

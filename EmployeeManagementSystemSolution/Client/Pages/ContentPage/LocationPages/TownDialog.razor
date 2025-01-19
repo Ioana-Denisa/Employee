@@ -21,16 +21,16 @@
 							@if (Town.City!= null)
 							{
 								string selected = Town.City!.Name;
-								<SfDropDownList TValue="string" TItem="City" Placeholder="@selected" DataSource="Cities">
+								<SfDropDownList TValue="string" TItem="County" Placeholder="@selected" DataSource="Cities">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-									<DropDownListEvents TValue="string" TItem="City" ValueChange="OnValueChange"></DropDownListEvents>
+									<DropDownListEvents TValue="string" TItem="County" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}
 							else
 							{
-								<SfDropDownList TValue="string" TItem="City" Placeholder="Select City" DataSource="Cities">
+								<SfDropDownList TValue="string" TItem="County" Placeholder="Select City" DataSource="Cities">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-									<DropDownListEvents TValue="string" TItem="City" ValueChange="OnValueChange"></DropDownListEvents>
+									<DropDownListEvents TValue="string" TItem="County" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}
 						</div>
@@ -49,7 +49,7 @@
 @code {
 	[Parameter] public Town Town { get; set; } = new();
 	[Parameter] public EventCallback<Town> HandleSaveOperationEvent { get; set; }
-	[Parameter] public List<City> Cities{ get; set; } = new();
+	[Parameter] public List<County> Cities{ get; set; } = new();
 
 	private bool IsVisible { get; set; } = false;
 	public string Title { get; set; } = "Add";
@@ -77,7 +77,7 @@
 		Title = title;
 	}
 
-	public void OnValueChange(ChangeEventArgs<string, City> args)
+	public void OnValueChange(ChangeEventArgs<string, County> args)
 	{
 		Town.CityID = int.Parse(args.Value);
 	}

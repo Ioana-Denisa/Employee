@@ -11,7 +11,7 @@ namespace BaseLibrary.Entities
         [Required]
         public string Name { get; set; }=string.Empty;
         public int GeneralDepartmentID {  get; set; }
-        public GeneralDepartment? GeneralDepartment { get; set; }
+        public Division? GeneralDepartment { get; set; }
         [JsonIgnore]
 
         public List<Specialization>? Specializations { get; set; }

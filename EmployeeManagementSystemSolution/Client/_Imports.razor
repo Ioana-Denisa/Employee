@@ -19,7 +19,7 @@
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.DropDowns
-
+@using Client.Pages.ContentPage.UserPages
 @using Client.Pages.ContentPage.DepartmentPages
 @using Client.Pages.OtherPages
 
@@ -34,12 +34,12 @@
 
 @inject SfDialogService dialogService
 
-@inject IGenericService<GeneralDepartment> generalDepartmentService
+@inject IGenericService<Division> generalDepartmentService
 @inject IGenericService<Department> departmentService
 @inject IGenericService<Specialization> specializationService
 
 @inject IGenericService<Country> countryService
-@inject IGenericService<City> cityService
+@inject IGenericService<County> cityService
 @inject IGenericService<Town> townService
 
 @inject IGenericService<Employee> employeeService

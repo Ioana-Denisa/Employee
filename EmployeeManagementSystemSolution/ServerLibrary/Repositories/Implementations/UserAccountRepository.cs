@@ -22,14 +22,14 @@ namespace ServerLibrary.Repositories.Implementations
         {
             if (user == null) return new LoginResponse(false, "Model is empty");
 
-            var applicationUser=await FindUserByEmail(user.Email);
+            var applicationUser = await FindUserByEmail(user.Email);
             if (applicationUser == null) return new LoginResponse(false, "User not found!");
 
             //Verify password
-            if (!BCrypt.Net.BCrypt.Verify(user.Password, applicationUser.Password)) 
+            if (!BCrypt.Net.BCrypt.Verify(user.Password, applicationUser.Password))
                 return new LoginResponse(false, "Email/Password not valid");
 
-            var getUserRole=await FindUserRole(applicationUser.ID);
+            var getUserRole = await FindUserRole(applicationUser.ID);
             if (getUserRole == null) return new LoginResponse(false, "User role not found!");
 
             var getRoleName = await FindRoleName(getUserRole.RoleID);
@@ -40,7 +40,7 @@ namespace ServerLibrary.Repositories.Implementations
 
             //Sae the Refresh token to the database
             var findUser = await appDbContext.RefreshTokenInfos.FirstOrDefaultAsync(_ => _.UserID == applicationUser.ID);
-            if(findUser!=null)
+            if (findUser != null)
             {
                 findUser!.Token = refreshToken;
                 await appDbContext.SaveChangesAsync();
@@ -48,13 +48,13 @@ namespace ServerLibrary.Repositories.Implementations
             }
             else
             {
-                await AddToDatabase(new RefreshTokenInfo() { Token = refreshToken ,UserID=applicationUser.ID});
+                await AddToDatabase(new RefreshTokenInfo() { Token = refreshToken, UserID = applicationUser.ID });
             }
-            return new LoginResponse(true,"Login successfully!",jwtToken,refreshToken);
+            return new LoginResponse(true, "Login successfully!", jwtToken, refreshToken);
 
         }
 
-         public async Task<GeneralResponse> CreateAsync(Register user)
+        public async Task<GeneralResponse> CreateAsync(Register user)
         {
             if (user is null) return new GeneralResponse(false, "Model is empty");
 
@@ -105,8 +105,8 @@ namespace ServerLibrary.Repositories.Implementations
 
         private string GenerateToken(User user, string role)
         {
-            var securityKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.Key));
-            var credentials=new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.Value.Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var userClaims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.ID.ToString()),
@@ -139,19 +139,73 @@ namespace ServerLibrary.Repositories.Implementations
             var user = await appDbContext.Users.FirstOrDefaultAsync(_ => _.ID == findToken.UserID);
             if (user == null) return new LoginResponse(false, "Refresh token could not be generated because user not found!");
 
-            var userRole=await FindUserRole(user.ID);
+            var userRole = await FindUserRole(user.ID);
             var roleName = await FindRoleName(userRole.RoleID);
-            var jwtToken=GenerateToken(user, roleName.Name);
+            var jwtToken = GenerateToken(user, roleName.Name);
             string refreshToken = GenerateRefreshToken();
 
-            var updateRefreshToken=await appDbContext.RefreshTokenInfos.FirstOrDefaultAsync(_=>_.UserID==user.ID);
+            var updateRefreshToken = await appDbContext.RefreshTokenInfos.FirstOrDefaultAsync(_ => _.UserID == user.ID);
             if (updateRefreshToken == null) return new LoginResponse(false, "Refresh token could not be generated because user has not signed in");
 
             updateRefreshToken.Token = refreshToken;
             await appDbContext.SaveChangesAsync();
             return new LoginResponse(true, "Token refreshed successfully", jwtToken, refreshToken);
         }
+
+        public async Task<List<ManageUser>> GetUsers()
+        {
+            var allUsers = await GetAllUsers();
+            var allUserRoles = await UserRoles();
+            var allRoles = await SystemRoles();
+
+            if (allUsers.Count == 0 || allRoles.Count == 0)
+                return null!;
+
+            var users = new List<ManageUser>();
+            foreach (var user in allUsers)
+            {
+                var userRole = allUserRoles.FirstOrDefault(u => u.UserID == user.ID);
+                var roleName = allRoles.FirstOrDefault(u => u.ID == userRole!.RoleID);
+                users.Add(new ManageUser() { UserID = user.ID, Username = user.Username!, Email = user.Email!, Role = roleName!.Name! });
+            }
+            return users;
+        }
+
+        public async Task<GeneralResponse> UpdateUser(ManageUser user)
+        {
+            var getRole = (await SystemRoles()).FirstOrDefault(r => r.Name!.Equals(user.Role));
+            var userRole = await appDbContext.UserRoles.FirstOrDefaultAsync(U => U.UserID == user.UserID);
+            userRole!.RoleID = getRole!.ID;
+            await appDbContext.SaveChangesAsync();
+            return new GeneralResponse(true, "User role updated successfully");
+        }
+
+        public async Task<List<SystemRole>> GetRoles() => await SystemRoles();
+
+        public async Task<GeneralResponse> DeleteUser(int id)
+        {
+            var user =await appDbContext.Users.FirstOrDefaultAsync(u=>u.ID==id);
+            appDbContext.Users.Remove(user!);
+            await appDbContext.SaveChangesAsync();
+            return new GeneralResponse(true, "User successfully deleted!");
+        }
+
+
+        private async Task<List<SystemRole>> SystemRoles() => await appDbContext
+            .SystemRoles
+            .AsNoTracking()
+            .ToListAsync();
+
+        private async Task<List<UserRole>> UserRoles() => await appDbContext
+            .UserRoles
+            .AsNoTracking()
+            .ToListAsync();
+
+        private async Task<List<User>> GetAllUsers() => await appDbContext
+            .Users
+            .AsNoTracking()
+            .ToListAsync();
     }
 
-    
+
 }

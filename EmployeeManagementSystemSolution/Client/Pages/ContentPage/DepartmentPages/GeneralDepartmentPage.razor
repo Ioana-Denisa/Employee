@@ -78,9 +78,9 @@ GeneralDepartment="GeneralDepartment" />
 
 @code {
 	GeneralDepartmentDialog? generalDepartmentDialog;
-	GeneralDepartment GeneralDepartment = new();
+	Division GeneralDepartment = new();
 	public string Title { get; set; } = "Add";
-	public List<GeneralDepartment> GeneralDepartments { get; set; } = new();
+	public List<Division> GeneralDepartments { get; set; } = new();
 
 	protected async override Task OnInitializedAsync()
 	{
@@ -97,7 +97,7 @@ GeneralDepartment="GeneralDepartment" />
 		generalDepartmentDialog?.OpenDialog();
 	}
 
-	private async Task HandleSaveOperatioEvent(GeneralDepartment generalDepartment)
+	private async Task HandleSaveOperatioEvent(Division generalDepartment)
 	{
 		bool successCheck = false;
 		if (generalDepartment.ID > 0)
@@ -119,14 +119,14 @@ GeneralDepartment="GeneralDepartment" />
 		}
 	}
 
-	private void EditClicked(GeneralDepartment dep)
+	private void EditClicked(Division dep)
 	{
 		generalDepartmentDialog?.ChangeTitle("Update");
 		GeneralDepartment = dep;
 		OpenDialog();
 	}
 
-	private async Task DeleteClicked(GeneralDepartment dep)
+	private async Task DeleteClicked(Division dep)
 	{
 		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {dep.Name}?", "Confirm delete!");
 		if (!confirm) return;

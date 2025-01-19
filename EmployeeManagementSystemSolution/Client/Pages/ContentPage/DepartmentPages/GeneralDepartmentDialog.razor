@@ -25,8 +25,8 @@
 
 
 @code {
-	[Parameter] public GeneralDepartment GeneralDepartment { get; set; } = new();
-	[Parameter] public EventCallback<GeneralDepartment> HandleSaveOperationEvent { get; set; }
+	[Parameter] public Division GeneralDepartment { get; set; } = new();
+	[Parameter] public EventCallback<Division> HandleSaveOperationEvent { get; set; }
 	private bool IsVisible { get; set; } = false;
 	public string Title { get; set; } = "Add";
 

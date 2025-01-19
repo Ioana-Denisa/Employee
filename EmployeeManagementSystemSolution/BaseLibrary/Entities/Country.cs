@@ -12,6 +12,6 @@ namespace BaseLibrary.Entities
         public string Name { get; set; }=string.Empty;
         [JsonIgnore]
 
-        public List<City>? Cities { get; set; }
+        public List<County>? Cities { get; set; }
     }   
 }

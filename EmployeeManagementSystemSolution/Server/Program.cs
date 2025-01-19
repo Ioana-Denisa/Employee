@@ -48,11 +48,11 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IUserAccount,UserAccountRepository>();
 
-builder.Services.AddScoped<IGenericRepository<GeneralDepartment>,GeneralDepartmentRepository>();
+builder.Services.AddScoped<IGenericRepository<Division>,GeneralDepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Department>,DepartmentRepository>();
 builder.Services.AddScoped<IGenericRepository<Specialization>,SpecializationRepository>();
 builder.Services.AddScoped<IGenericRepository<Country>, CountryRepository>();
-builder.Services.AddScoped<IGenericRepository<City>,CityRepository>();
+builder.Services.AddScoped<IGenericRepository<County>,CityRepository>();
 builder.Services.AddScoped<IGenericRepository<Town>, TownRepository>();
 
 builder.Services.AddCors(options =>

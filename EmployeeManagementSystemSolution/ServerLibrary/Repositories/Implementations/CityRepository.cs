@@ -6,7 +6,7 @@ using ServerLibrary.Repositories.Contracts;
 
 namespace ServerLibrary.Repositories.Implementations
 {
-    public class CityRepository(AppDbContext appDbContext) : IGenericRepository<City>
+    public class CityRepository(AppDbContext appDbContext) : IGenericRepository<County>
     {
         public async Task<GeneralResponse> DeleteByID(int id)
         {
@@ -18,15 +18,15 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<List<City>> GetAll() => await appDbContext
+        public async Task<List<County>> GetAll() => await appDbContext
             .Cities
             .AsNoTracking()
             .Include(gd => gd.Country)
             .ToListAsync();
 
-        public async Task<City> GetByID(int id) => await appDbContext.Cities.FindAsync(id);
+        public async Task<County> GetByID(int id) => await appDbContext.Cities.FindAsync(id);
 
-        public async Task<GeneralResponse> Insert(City item)
+        public async Task<GeneralResponse> Insert(County item)
         {
             if (!await CheckName(item.Name!)) return new GeneralResponse(false, "This city already added!");
             appDbContext.Cities.Add(item);
@@ -34,7 +34,7 @@ namespace ServerLibrary.Repositories.Implementations
             return Success();
         }
 
-        public async Task<GeneralResponse> Update(City item)
+        public async Task<GeneralResponse> Update(County item)
         {
             var city = await appDbContext.Cities.FindAsync(item.ID);
             if (city == null) return NotFound();

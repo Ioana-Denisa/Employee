@@ -21,15 +21,15 @@
 							@if(Department.GeneralDepartment!=null)
 							{
 								string selected = Department.GeneralDepartment!.Name;
-								<SfDropDownList TValue="string" TItem="GeneralDepartment" Placeholder="@selected" DataSource="GeneralDepartments">
+								<SfDropDownList TValue="string" TItem="Division" Placeholder="@selected" DataSource="GeneralDepartments">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-									<DropDownListEvents TValue="string" TItem="GeneralDepartment" ValueChange="OnValueChange"></DropDownListEvents>
+									<DropDownListEvents TValue="string" TItem="Division" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}else
 							{
-								<SfDropDownList TValue="string" TItem="GeneralDepartment" Placeholder="Select General Department" DataSource="GeneralDepartments">
+								<SfDropDownList TValue="string" TItem="Division" Placeholder="Select General Department" DataSource="GeneralDepartments">
 									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-									<DropDownListEvents TValue="string" TItem="GeneralDepartment" ValueChange="OnValueChange"></DropDownListEvents>
+									<DropDownListEvents TValue="string" TItem="Division" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}
 						</div>
@@ -48,7 +48,7 @@
 @code {
 	[Parameter] public Department Department { get; set; } = new();
 	[Parameter] public EventCallback<Department> HandleSaveOperationEvent { get; set; }
-	[Parameter] public List<GeneralDepartment> GeneralDepartments { get; set; } = new();
+	[Parameter] public List<Division> GeneralDepartments { get; set; } = new();
 
 	private bool IsVisible { get; set; } = false;
 	public string Title { get; set; } = "Add";
@@ -76,7 +76,7 @@
 		Title = title;
 	}
 
-	public void OnValueChange(ChangeEventArgs<string, GeneralDepartment>args)
+	public void OnValueChange(ChangeEventArgs<string, Division>args)
 	{
 		Department.GeneralDepartmentID = int.Parse(args.Value);
 	}

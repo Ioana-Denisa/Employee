@@ -4,34 +4,9 @@ using System.Text.RegularExpressions;
 
 
 namespace EmployeeManagementTests
-{
+{ 
     [TestClass]
-    public class ExampleTest : PageTest
-    {
-        [TestMethod]
-        public async Task HasTitle()
-        {
-            await Page.GotoAsync("https://playwright.dev");
-
-            // Expect a title "to contain" a substring.
-            await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
-        }
-
-        [TestMethod]
-        public async Task GetStartedLink()
-        {
-            await Page.GotoAsync("https://playwright.dev");
-
-            // Click the get started link.
-            await Page.GetByRole(AriaRole.Link, new() { Name = "Get started" }).ClickAsync();
-
-            // Expects page to have a heading with the name of Installation.
-            await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Installation" })).ToBeVisibleAsync();
-        }
-    }
-
-    [TestClass]
-    public class RedirectTests : PageTest
+    public class LoginPageTest : PageTest
     {
         [TestMethod]
         public async Task SignUpButtonIsClicked()
@@ -43,6 +18,35 @@ namespace EmployeeManagementTests
 
             var currentUrl = Page.Url;
             Assert.AreEqual("https://localhost:7195/identity/account/register", currentUrl, "Redirecționarea nu a avut loc corect.");
+        }
+
+        [TestMethod]
+        public async Task LoginWithCorrectInput()
+        {
+            await Page.GotoAsync("https://localhost:7195/identity/account/login");
+            await Page.FillAsync("input[placeholder='Enter your email']", "admin@example.com");
+            await Page.FillAsync("input[placeholder='Enter your password']", "pass");
+            await Page.ClickAsync("button:has-text('Login')");
+            var dialog = await Page.WaitForSelectorAsync("text=Login Success");
+            Assert.IsNotNull(dialog, "Login success dialog did not appear.");
+            await Page.ClickAsync("button:has-text('OK')");
+            await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            var currentUrl = Page.Url;
+            Assert.AreEqual("https://localhost:7195/home/dashboard", currentUrl, "Redirecționarea nu a avut loc corect.");
+
+        }
+
+        [TestMethod]
+        public async Task LoginWithIncorrectInput()
+        {
+            await Page.GotoAsync("https://localhost:7195/identity/account/login");
+            await Page.FillAsync("input[placeholder='Enter your email']", "user@example.com");
+            await Page.FillAsync("input[placeholder='Enter your password']", "string");
+            await Page.ClickAsync("button:has-text('Login')");
+            var alertDialog = await Page.WaitForSelectorAsync("text=Alert");
+            Assert.IsNotNull(alertDialog, "Alert dialog did not appear.");
+    
         }
     }
 }

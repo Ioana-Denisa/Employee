@@ -1,16 +1,16 @@
 ﻿@implements IDisposable
 
-@if (allState.ShowTown)
+@if (allState.ShowUser)
 {
 	<div class="container mt-5">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="card">
 					<div class="card-header">
-						<h4 class="float-start">Towns</h4>
-						<button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
+						<h4 class="float-start">Users</h4>
+						@* <button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
 							<i class="bi bi-plus-circle-dotted"></i>Add Town
-						</button>
+						</button> *@
 					</div>
 					<div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
 						<div class="card-body">
@@ -19,22 +19,24 @@
 									<tr>
 										<th scope="col">#</th>
 										<th scope="col">ID</th>
-										<th scope="col">City</th>
-										<th scope="col">Town</th>
+										<th scope="col">Name</th>
+										<th scope="col">Email</th>
+										<th scope="col">Role</th>
 										<th scope="col">Action</th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (Towns is not null)
+									@if (ManageUsers is not null)
 									{
 										int count = 1;
-										foreach (var item in Towns)
+										foreach (var item in ManageUsers)
 										{
 											<tr>
 												<th scope="row">@count</th>
-												<td>@item.ID</td>
-												<td>@item.City!.Name</td>
-												<td>@item.Name</td>
+												<td>@item.UserID</td>
+												<td>@item.Username</td>
+												<td>@item.Email</td>
+												<td>@item.Role</td>
 												<td>
 													<i class=" bi  bi-pencil text-info" id="cursorStyle"
 													@onclick="()=>EditClicked(item)" />
@@ -65,7 +67,7 @@
 	</div>
 }
 
-
+@* 
 <style>
 	.cursorStyle {
 	cursor: pointer;
@@ -75,7 +77,7 @@
 <TownDialog @ref="townDialog"
 HandleSaveOperationEvent="HandleSaveOperationEvent"
 Town="Town"
-Cities="Cities" />
+Cities="Cities" /> *@
 
 @code {
 	UserDialog? userDialog;
@@ -92,7 +94,7 @@ Cities="Cities" />
 
 	private async Task GetUsers()
 	{
-		ManageUser = await accountService.GetUsers();
+		ManageUsers = await accountService.GetUsers();
 	}
 
 	private async Task GetRoles()
@@ -113,7 +115,7 @@ Cities="Cities" />
 
 	private async Task HandleSaveOperationEvent(ManageUser manageUser)
 	{
-		var result = await accountService.UpdateUsers(manageUser);
+		var result = await accountService.UpdateUser(manageUser);
 		bool successCheck = await DisplayMessage(result.Flag, result.Message);
 		if(successCheck)
 		{
