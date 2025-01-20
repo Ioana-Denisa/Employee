@@ -93,7 +93,7 @@
 
 	private async Task GetGeneralDepartments()
 	{
-		Divisions = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+		Divisions = await generalDepartmentService.GetAll(Constants.DivisionBaseUrl);
 	}
 
 	private async Task GetDepartments()

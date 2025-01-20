@@ -1,6 +1,6 @@
 ﻿@implements IDisposable
 
-@if (allState.ShowCity)
+@if (allState.ShowCounty)
 {
 	<div class="container mt-5">
 		<div class="row">
@@ -98,7 +98,7 @@
 
 	private async Task GetCities()
 	{
-		Counties = await cityService.GetAll(Constants.CityBaseUrl);
+		Counties = await cityService.GetAll(Constants.CountyBaseUrl);
 	}
 
 	private async Task AddButtonClicked()
@@ -118,12 +118,12 @@
 		bool successCheck = false;
 		if (city.ID > 0)
 		{
-			var result = await cityService.Update(city, Constants.CityBaseUrl);
+			var result = await cityService.Update(city, Constants.CountyBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 		else
 		{
-			var result = await cityService.Insert(city, Constants.CityBaseUrl);
+			var result = await cityService.Insert(city, Constants.CountyBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 
@@ -147,7 +147,7 @@
 		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {city.Name}?", "Confirm delete!");
 		if (!confirm) return;
 
-		var response = await cityService.DeleteByID(city.ID, Constants.CityBaseUrl);
+		var response = await cityService.DeleteByID(city.ID, Constants.CountyBaseUrl);
 		var result = await DisplayMessage(response.Flag, response.Message);
 		if (result)
 			await GetCities();

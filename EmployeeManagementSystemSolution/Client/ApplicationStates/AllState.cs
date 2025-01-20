@@ -3,11 +3,11 @@
     public class AllState
     {
         public Action? Action { get; set; }
-        public bool ShowGeneralDepartment { get; set; }
-        public void GeneralDepartmentClicked()
+        public bool ShowDivision { get; set; }
+        public void DivisionClicked()
         {
             ResetAllDepartments();
-            ShowGeneralDepartment = true;
+            ShowDivision = true;
             Action?.Invoke();
         }
 
@@ -35,11 +35,11 @@
             Action?.Invoke();
         }
 
-        public bool ShowCity { get; set; }
-        public void CityClicked()
+        public bool ShowCounty { get; set; }
+        public void CountyClicked()
         {
             ResetAllDepartments();
-            ShowCity = true;
+            ShowCounty = true;
             Action?.Invoke();
         }
 
@@ -69,11 +69,11 @@
 
         private void ResetAllDepartments()
         {
-            ShowGeneralDepartment = false;
+            ShowDivision = false;
             ShowDepartment = false;
             ShowSpecialization = false;
             ShowCountry = false;
-            ShowCity = false;
+            ShowCounty = false;
             ShowTown = false;
             ShowUser = false;
             ShowEmployee = false;

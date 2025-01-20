@@ -46,7 +46,7 @@
 								<a class="nav-link p-2" @onclick="GeneralDepartmentClicked">
 									<div class="hstack text-wrap">
 										<span class="bi bi-file-medical fs-5 text-center" aria-hidden="true" style="margin-top:-2rem"></span>
-										<span class="fs-6">General Dep</span>
+										<span class="fs-6">Division</span>
 									</div>
 								</a>
 							</li>
@@ -81,7 +81,7 @@
 								<a class="nav-link p-2">
 									<div class="hstack">
 										<span class="bi bi-geo-fill fs-5 text-center" aria-hidden="true" style="margin-top:-2rem"></span>
-										<span>City</span>
+										<span>County</span>
 									</div>
 								</a>
 							</li>
@@ -164,7 +164,7 @@
 
 	void GeneralDepartmentClicked()
 	{
-		allState.GeneralDepartmentClicked();
+		allState.DivisionClicked();
 	}
 	void DepartmentClicked()
 	{
@@ -182,7 +182,7 @@
 
 	void CityClicked()
 	{
-		allState.CityClicked();
+		allState.CountyClicked();
 	}
 	void TownClicked()
 	{

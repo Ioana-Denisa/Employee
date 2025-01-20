@@ -87,7 +87,7 @@
 	protected async override Task OnInitializedAsync()
 	{
 		await GetTowns();
-		await GetCities();
+		await GetCounties();
 		allState.Action += StateHasChanged;
 	}
 
@@ -96,9 +96,9 @@
 		Towns = await townService.GetAll(Constants.TownBaseUrl);
 	}
 
-	private async Task GetCities()
+	private async Task GetCounties()
 	{
-		Counties = await cityService.GetAll(Constants.CityBaseUrl);
+		Counties = await cityService.GetAll(Constants.CountyBaseUrl);
 	}
 
 	private async Task AddButtonClicked()

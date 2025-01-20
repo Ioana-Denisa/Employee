@@ -2,7 +2,7 @@
 
 
 
-@if (allState.ShowGeneralDepartment)
+@if (allState.ShowDivision)
 {
 	<div class="container mt-5">
 		<div class="row">
@@ -82,6 +82,7 @@ HandleSaveOperationEvent="HandleSaveOperatioEvent"
 	public string Title { get; set; } = "Add";
 	public List<Division> Divisions { get; set; } = new();
 
+
 	protected async override Task OnInitializedAsync()
 	{
 		await GetGeneralDepartments();
@@ -89,7 +90,7 @@ HandleSaveOperationEvent="HandleSaveOperatioEvent"
 	}
 	private async Task GetGeneralDepartments()
 	{
-		Divisions = await generalDepartmentService.GetAll(Constants.GeneralDepartmentBaseUrl);
+		Divisions = await generalDepartmentService.GetAll(Constants.DivisionBaseUrl);
 	}
 
 	void OpenDialog()
@@ -102,12 +103,12 @@ HandleSaveOperationEvent="HandleSaveOperatioEvent"
 		bool successCheck = false;
 		if (generalDepartment.ID > 0)
 		{
-			var result = await generalDepartmentService.Update(generalDepartment, Constants.GeneralDepartmentBaseUrl);
+			var result = await generalDepartmentService.Update(generalDepartment, Constants.DivisionBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 		else
 		{
-			var result = await generalDepartmentService.Insert(generalDepartment, Constants.GeneralDepartmentBaseUrl);
+			var result = await generalDepartmentService.Insert(generalDepartment, Constants.DivisionBaseUrl);
 			successCheck = await DisplayMessage(result.Flag, result.Message);
 		}
 
@@ -131,7 +132,7 @@ HandleSaveOperationEvent="HandleSaveOperatioEvent"
 		bool confirm = await dialogService.ConfirmAsync($"Are you sure you wanna delete {dep.Name}?", "Confirm delete!");
 		if (!confirm) return;
 
-		var response =await generalDepartmentService.DeleteByID(dep.ID,Constants.GeneralDepartmentBaseUrl);
+		var response =await generalDepartmentService.DeleteByID(dep.ID,Constants.DivisionBaseUrl);
 		if (await DisplayMessage(response.Flag, response.Message))
 			await GetGeneralDepartments();
 	}

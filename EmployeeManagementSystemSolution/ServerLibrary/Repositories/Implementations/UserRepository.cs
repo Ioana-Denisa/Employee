@@ -16,7 +16,7 @@ using System.Text;
 
 namespace ServerLibrary.Repositories.Implementations
 {
-    public class UserAccountRepository(IOptions<JwtSection> config, AppDbContext appDbContext) : IUserAccount
+    public class UserRepository(IOptions<JwtSection> config, AppDbContext appDbContext) : IUserAccount
     {
         public async Task<LoginResponse> SigninAsync(Login user)
         {

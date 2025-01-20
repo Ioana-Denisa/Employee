@@ -39,7 +39,7 @@ namespace ClientLibrary.Services.Implementations
         public async Task<List<ManageUser>> GetUsers()
         {
             var httpClient=await getHttpClient.GetPrivateHttpClient();
-            var result=await httpClient.GetFromJsonAsync<List<ManageUser>>($"{ AuthUrl}/user");
+            var result=await httpClient.GetFromJsonAsync<List<ManageUser>>($"{ AuthUrl}/users");
             return result!;
         }
 

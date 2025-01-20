@@ -8,9 +8,6 @@
 				<div class="card">
 					<div class="card-header">
 						<h4 class="float-start">Users</h4>
-						@* <button class="btn btn-outline-success float-end" @onclick="AddButtonClicked">
-							<i class="bi bi-plus-circle-dotted"></i>Add Town
-						</button> *@
 					</div>
 					<div class="card-header" style="max-height:580px; overflow-x:hidden; overflow-y:scroll;">
 						<div class="card-body">
@@ -52,7 +49,7 @@
 										<tr>
 											<td colspan="4">
 												<div class="alert alert-info text-center">
-													No Town added yet!
+													No User added yet!
 												</div>
 											</td>
 										</tr>
@@ -67,17 +64,17 @@
 	</div>
 }
 
-@* 
-<style>
+
+@* <style>
 	.cursorStyle {
 	cursor: pointer;
 	}
 </style>
 
-<TownDialog @ref="townDialog"
+<UserDialog @ref="userDialog"
 HandleSaveOperationEvent="HandleSaveOperationEvent"
-Town="Town"
-Cities="Cities" /> *@
+			ManageUser="ManageUser"
+			SystemRoles="SystemRoles" /> *@
 
 @code {
 	UserDialog? userDialog;
