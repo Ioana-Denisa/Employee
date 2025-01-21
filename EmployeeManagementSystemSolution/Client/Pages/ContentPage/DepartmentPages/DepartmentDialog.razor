@@ -1,5 +1,5 @@
 ﻿
-<SfDialog Width="280px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
+<SfDialog Width="300px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
 	<DialogEvents OnOpen="OpenDialog"></DialogEvents>
 	<DialogTemplates>
 		<Header>@Title Department</Header>
@@ -7,10 +7,6 @@
 			<EditForm Model="Department" Enhance OnSubmit="Save">
 				<div class="card border-success">
 					<div class="card-body">
-						<div class="form-group">
-							<label class="form-label">ID</label>
-							<input @bind="Department.ID" class="form-control" disable></input>
-						</div>
 						<div class="form-group">
 							<label class="form-label">Name</label>
 							<InputText @bind-Value="Department.Name" class="form-control"></InputText>

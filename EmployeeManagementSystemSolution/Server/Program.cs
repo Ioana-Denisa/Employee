@@ -54,6 +54,8 @@ builder.Services.AddScoped<IGenericRepository<Specialization>,SpecializationRepo
 builder.Services.AddScoped<IGenericRepository<Country>, CountryRepository>();
 builder.Services.AddScoped<IGenericRepository<County>,CountyRepository>();
 builder.Services.AddScoped<IGenericRepository<Town>, TownRepository>();
+builder.Services.AddScoped<IGenericRepository<Employee>, EmployeeRepository>();
+
 
 builder.Services.AddCors(options =>
 {

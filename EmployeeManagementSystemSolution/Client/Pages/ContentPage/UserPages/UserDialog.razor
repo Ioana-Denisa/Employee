@@ -1,5 +1,5 @@
 ﻿
-<SfDialog Width="280px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
+<SfDialog Width="300px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
 	<DialogEvents OnOpen="OpenDialog"></DialogEvents>
 	<DialogTemplates>
 		<Header>Update User</Header>
@@ -8,16 +8,12 @@
 				<div class="card border-success">
 					<div class="card-body">
 						<div class="form-group">
-							<label class="form-label">ID</label>
-							<input @bind="ManageUser.UserID" class="form-control"></input>
-						</div>
-						<div class="form-group">
 							<label class="form-label">Name</label>
-							<InputText @bind-Value="ManageUser.Username" class="form-control"></InputText>
+							<input @bind="ManageUser.Username" class="form-control" disabled></input>
 						</div>
 						<div class="form-group">
 							<label class="form-label">Email</label>
-							<InputText @bind-Value="ManageUser.Email" class="form-control"></InputText>
+							<input @bind="ManageUser.Email" class="form-control" disabled></input>
 						</div>
 						<div class="form-group mt-3 mb-3">
 							<label class="form-label">Select Role</label>
@@ -25,14 +21,14 @@
 							{
 								string selected = ManageUser!.Role!;
 								<SfDropDownList TValue="string" TItem="SystemRole" Placeholder="@selected" DataSource="SystemRoles">
-									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+									<DropDownListFieldSettings Value="Name" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="SystemRole" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}
 							else
 							{
 								<SfDropDownList TValue="string" TItem="SystemRole" Placeholder="Select Role" DataSource="SystemRoles">
-									<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+									<DropDownListFieldSettings Value="Name" Text="Name"></DropDownListFieldSettings>
 									<DropDownListEvents TValue="string" TItem="SystemRole" ValueChange="OnValueChange"></DropDownListEvents>
 								</SfDropDownList>
 							}

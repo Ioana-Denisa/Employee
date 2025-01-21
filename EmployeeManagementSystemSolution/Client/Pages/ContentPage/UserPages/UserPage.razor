@@ -35,7 +35,7 @@
 												<td>@item.Email</td>
 												<td>@item.Role</td>
 												<td>
-													<i class=" bi  bi-pencil text-info" id="cursorStyle"
+													<i class=" bi bi-pencil text-info" id="cursorStyle"
 													@onclick="()=>EditClicked(item)" />
 													<i class="bi bi-trash text-danger" id="cursorStyle"
 													@onclick="()=>DeleteClicked(item)" />
@@ -65,7 +65,7 @@
 }
 
 
-@* <style>
+<style>
 	.cursorStyle {
 	cursor: pointer;
 	}
@@ -74,7 +74,7 @@
 <UserDialog @ref="userDialog"
 HandleSaveOperationEvent="HandleSaveOperationEvent"
 			ManageUser="ManageUser"
-			SystemRoles="SystemRoles" /> *@
+			SystemRoles="SystemRoles" />
 
 @code {
 	UserDialog? userDialog;

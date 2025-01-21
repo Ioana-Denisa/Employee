@@ -1,0 +1,122 @@
+﻿@implements IDisposable
+@if (allState.ShowEmployee)
+{
+	if (ShowMainPage)
+	{
+		<div class="container-fluid mt-5">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card">
+						<div class="card-header">
+							<button class="btn btn-outline-success" @onclick="ShowAddOrUpdateEmployeeButtonClicked">
+								<i class="bi bi-plus-circle-dotted"></i>Add Employee
+							</button>
+						</div>
+						<div class="card-body">
+							<SfGrid DataSource="@Employees">
+								<GridColumns>
+									<GridColumn Field=@nameof(Employee.Fullname) HeaderText="Name"></GridColumn>
+									<GridColumn Field=@nameof(Employee.PhoneNumber) HeaderText="Phone Number"></GridColumn>
+									<GridColumn Field=@nameof(Employee.Specialization.Name) HeaderText="Specialization"></GridColumn>
+									<GridColumn Field=@nameof(Employee.Town.Name) HeaderText="Town"></GridColumn>
+								</GridColumns>
+							</SfGrid>
+						</div>
+						<div class="card-footer" />
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+}
+
+
+<AddOrUpdateEmployeePage @ref="addOrUpdateEmployee"
+Employee="Employee"
+ShowAddOrUpdateEmployee="ShowAddOrUpdatePage"
+NotifyParentFormCloseClicked="NotifyParentFormCloseClicked"
+Counties="SelectedCounties"
+Countries="DefaultCountries"
+Towns="SelectedTowns"
+Divisions="DefaultDivisions"
+Departments="SelectedDepartments"
+Specializations="SelectedSpecializations"
+Users="Users"
+HandleCountrySelectedEvent="HandleCountrySelectedEvent"
+HandleCountySelectedEvent="HandleCountySelectedEvent"
+HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
+HandleDivisionSelectedEvent="HandleDivisionSelectedEvent"
+HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
+@code {
+	public List<Employee> Employees { get; set; } = new();
+	public List<User> Users { get; set; } = [];
+	AddOrUpdateEmployeePage? addOrUpdateEmployee;
+	public Employee Employee { get; set; } = new();
+
+	public List<Country> DefaultCountries { get; set; } = [];
+	public List<County> DefaultCounties{ get; set; } = [];
+	public List<Town> DefaultTowns{ get; set; } = [];
+
+	public List<Division> DefaultDivisions { get; set; } = [];
+	public List<Department> DefaultDepartment { get; set; } = [];
+	public List<Specialization> DefaultSpecialization { get; set; } = [];
+
+	public List<Town> SelectedTowns { get; set; } = [];
+	public List<County> SelectedCounties { get; set; } = [];
+	public List<Department> SelectedDepartments{ get; set; } = [];
+	public List<Specialization> SelectedSpecializations{ get; set; } = [];
+	protected async override Task OnInitializedAsync()
+	{
+		allState.Action += StateHasChanged;
+		await LoadEmployees();
+		await LoadDefaults();
+	}
+
+	private async Task LoadDefaults()
+	{
+		DefaultCountries = await countryService.GetAll(Constants.CountryBaseUrl);
+		DefaultCounties = await cityService.GetAll(Constants.CountyBaseUrl);
+		DefaultTowns = await townService.GetAll(Constants.TownBaseUrl);
+
+		DefaultDivisions=await generalDepartmentService.GetAll(Constants.DivisionBaseUrl);
+		DefaultDepartment=await departmentService.GetAll(Constants.DepartmentBaseUrl);
+		DefaultSpecialization = await specializationService.GetAll(Constants.SpecializationBaseUrl);
+
+	}
+
+	private void HandleCountrySelectedEvent(int item) =>
+	SelectedCounties = DefaultCounties.Where(c => c.CountryID == item).ToList();
+
+	private void HandleCountySelectedEvent(int item) =>
+	SelectedTowns = DefaultTowns.Where(t => t.CountyID == item).ToList();
+
+	private void HandleDivisionSelectedEvent(int item) =>
+	SelectedDepartments = DefaultDepartment.Where(d => d.DivisionID == item).ToList();
+
+	private void HandleDepartmentSelectedEvent(int item) =>
+	SelectedSpecializations = DefaultSpecialization.Where(s => s.DepartmentID == item).ToList();
+
+	//notify parent when add or update employee form closes
+	private async Task NotifyParentFormCloseClicked()
+	{
+		ShowMainPage=true;
+		ShowAddOrUpdatePage = false;
+		await LoadEmployees();
+	}
+
+	private async Task LoadEmployees()
+	{
+		Employees = await employeeService.GetAll(Constants.EmployeeBaseUrl);
+	}
+
+	public bool ShowMainPage { get; set; } = true;
+	public bool ShowAddOrUpdatePage { get; set; } = false;
+	void ShowAddOrUpdateEmployeeButtonClicked()
+	{
+		ShowMainPage = false;
+		ShowAddOrUpdatePage = true;
+	}
+
+	public void Dispose() => allState.Action -= StateHasChanged;
+
+}
