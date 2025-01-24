@@ -24,17 +24,15 @@ namespace ServerLibrary.Repositories.Implementations
 
         public async Task<List<Employee>> GetAll()
         {
-            var employees = await appDbContext.Employees
+            var employees = await appDbContext
+                .Employees
                 .AsNoTracking()
                 .Include(t => t.Town)
-                .ThenInclude(b => b.County)
-                .ThenInclude(c => c.Country)
                 .Include(s => s.Specialization)
-                .ThenInclude(d => d.Department)
-                .ThenInclude(div => div.Division)
                 .ToListAsync();
             return employees;
         }
+
 
         public async Task<Employee> GetByID(int id)
         {

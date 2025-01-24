@@ -7,7 +7,6 @@ namespace ServerLibrary.Data
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<EmployeeTypes> EmployeeTypes { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Specialization> Specializations { get; set; }

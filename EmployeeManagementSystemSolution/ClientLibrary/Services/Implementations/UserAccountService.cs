@@ -67,5 +67,12 @@ namespace ClientLibrary.Services.Implementations
                 return new GeneralResponse(false, "Error occured!");
             return await result.Content.ReadFromJsonAsync<GeneralResponse>()!;
         }
+
+        public async Task<List<User>> GetAllUsers()
+        {
+            var httpClient = await getHttpClient.GetPrivateHttpClient();
+            var result = await httpClient.GetFromJsonAsync<List<User>>($"{AuthUrl}/users");
+            return result!;
+        }
     }
 }

@@ -18,7 +18,9 @@
 									<GridColumn Field=@nameof(Employee.Fullname) HeaderText="Name"></GridColumn>
 									<GridColumn Field=@nameof(Employee.PhoneNumber) HeaderText="Phone Number"></GridColumn>
 									<GridColumn Field=@nameof(Employee.Specialization.Name) HeaderText="Specialization"></GridColumn>
+									<GridColumn Field=@nameof(Employee.Address) HeaderText="Address"></GridColumn>
 									<GridColumn Field=@nameof(Employee.Town.Name) HeaderText="Town"></GridColumn>
+									<GridColumn Field=@nameof(Employee.User.Email) HeaderText="Email"></GridColumn>
 								</GridColumns>
 							</SfGrid>
 						</div>
@@ -41,35 +43,49 @@ Towns="SelectedTowns"
 Divisions="DefaultDivisions"
 Departments="SelectedDepartments"
 Specializations="SelectedSpecializations"
-Users="Users"
+Users="DefaultUsers"
 HandleCountrySelectedEvent="HandleCountrySelectedEvent"
 HandleCountySelectedEvent="HandleCountySelectedEvent"
 HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
 HandleDivisionSelectedEvent="HandleDivisionSelectedEvent"
-HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
+HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent"/>
+
+
 @code {
 	public List<Employee> Employees { get; set; } = new();
-	public List<User> Users { get; set; } = [];
 	AddOrUpdateEmployeePage? addOrUpdateEmployee;
 	public Employee Employee { get; set; } = new();
 
 	public List<Country> DefaultCountries { get; set; } = [];
-	public List<County> DefaultCounties{ get; set; } = [];
-	public List<Town> DefaultTowns{ get; set; } = [];
+	public List<County> DefaultCounties { get; set; } = [];
+	public List<Town> DefaultTowns { get; set; } = [];
 
 	public List<Division> DefaultDivisions { get; set; } = [];
 	public List<Department> DefaultDepartment { get; set; } = [];
 	public List<Specialization> DefaultSpecialization { get; set; } = [];
 
+	public List<User> DefaultUsers{ get; set; }=[];
+
 	public List<Town> SelectedTowns { get; set; } = [];
 	public List<County> SelectedCounties { get; set; } = [];
-	public List<Department> SelectedDepartments{ get; set; } = [];
-	public List<Specialization> SelectedSpecializations{ get; set; } = [];
+	public List<Department> SelectedDepartments { get; set; } = [];
+	public List<Specialization> SelectedSpecializations { get; set; } = [];
+
+
 	protected async override Task OnInitializedAsync()
 	{
 		allState.Action += StateHasChanged;
 		await LoadEmployees();
 		await LoadDefaults();
+	}
+
+	private async Task LoadEmployees()
+	{
+		Employees = await employeeService.GetAll(Constants.EmployeeBaseUrl);
+		foreach (var user in Employees)
+		{
+			Console.WriteLine($"Loaded Users: {user.Fullname}	{user.Address}");
+		}
 	}
 
 	private async Task LoadDefaults()
@@ -78,9 +94,16 @@ HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
 		DefaultCounties = await cityService.GetAll(Constants.CountyBaseUrl);
 		DefaultTowns = await townService.GetAll(Constants.TownBaseUrl);
 
-		DefaultDivisions=await generalDepartmentService.GetAll(Constants.DivisionBaseUrl);
-		DefaultDepartment=await departmentService.GetAll(Constants.DepartmentBaseUrl);
+		DefaultDivisions = await generalDepartmentService.GetAll(Constants.DivisionBaseUrl);
+		DefaultDepartment = await departmentService.GetAll(Constants.DepartmentBaseUrl);
 		DefaultSpecialization = await specializationService.GetAll(Constants.SpecializationBaseUrl);
+
+		DefaultUsers = await accountService.GetAllUsers();
+		Console.WriteLine($"Loaded Users: {DefaultUsers.Count}");
+		foreach (var user in DefaultUsers)
+		{
+			Console.WriteLine($"Loaded Users: {user.Username}	{user.Email}");
+		}
 
 	}
 
@@ -96,17 +119,50 @@ HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
 	private void HandleDepartmentSelectedEvent(int item) =>
 	SelectedSpecializations = DefaultSpecialization.Where(s => s.DepartmentID == item).ToList();
 
+
 	//notify parent when add or update employee form closes
 	private async Task NotifyParentFormCloseClicked()
 	{
-		ShowMainPage=true;
+		ShowMainPage = true;
 		ShowAddOrUpdatePage = false;
 		await LoadEmployees();
 	}
 
-	private async Task LoadEmployees()
+	
+
+	private async Task HandleSaveEmployeeClickedEvent(Employee employee)
 	{
-		Employees = await employeeService.GetAll(Constants.EmployeeBaseUrl);
+		Console.WriteLine("FUNCTIE SALVARE");
+		bool successCheck = false;
+		if (employee.ID > 0)
+		{
+			var result = await employeeService.Update(employee, Constants.EmployeeBaseUrl);
+			successCheck = await DisplayMessage(result.Flag, result.Message);
+		}
+		else
+		{
+			var response = await employeeService.Insert(employee, Constants.EmployeeBaseUrl);
+			successCheck = await DisplayMessage(response.Flag, response.Message);
+		}
+
+		if (successCheck)
+		{
+			addOrUpdateEmployee!.ClearContent();
+		}
+	}
+
+	private async Task<bool> DisplayMessage(bool flag, string message)
+	{
+		if (flag)
+		{
+			await dialogService.AlertAsync(message, "Success operation!");
+			return true;
+		}
+		else
+		{
+			await dialogService.AlertAsync(message, "Alert!");
+			return false;
+		}
 	}
 
 	public bool ShowMainPage { get; set; } = true;

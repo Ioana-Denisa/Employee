@@ -103,7 +103,7 @@
 												@{
 													string department = Department.Equals("") ? "Select Department" : Department;
 												}
-												<SfDropDownList TValue="string" TItem="Department" Placeholder="department" DataSource="Departments">
+												<SfDropDownList TValue="string" TItem="Department" Placeholder="@department" DataSource="Departments">
 													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="Department" ValueChange="OnDepartmentValueChange"></DropDownListEvents>
 												</SfDropDownList>
@@ -113,7 +113,7 @@
 												@{
 													string specialization = Specialization.Equals("") ? "Select Specialization" : Specialization;
 												}
-												<SfDropDownList TValue="string" TItem="Specialization" Placeholder="specialization" DataSource="Specializations">
+												<SfDropDownList TValue="string" TItem="Specialization" Placeholder="@specialization" DataSource="Specializations">
 													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="Specialization" ValueChange="OnSpecializationValueChange"></DropDownListEvents>
 												</SfDropDownList>
@@ -136,7 +136,7 @@
 												@{
 													string country = Country.Equals("") ? "Select Country" : Country;
 												}
-												<SfDropDownList TValue="string" TItem="Country" Placeholder="country" DataSource="Countries">
+												<SfDropDownList TValue="string" TItem="Country" Placeholder="@country" DataSource="Countries">
 													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="Country" ValueChange="OnCountryValueChange"></DropDownListEvents>
 												</SfDropDownList>
@@ -146,7 +146,7 @@
 												@{
 													string county = County.Equals("") ? "Select County" : County;
 												}
-												<SfDropDownList TValue="string" TItem="County" Placeholder="county" DataSource="Counties">
+												<SfDropDownList TValue="string" TItem="County" Placeholder="@county" DataSource="Counties">
 													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="County" ValueChange="OnCountyValueChange"></DropDownListEvents>
 												</SfDropDownList>
@@ -156,7 +156,7 @@
 												@{
 													string town = Town.Equals("") ? "Select Town" : Town;
 												}
-												<SfDropDownList TValue="string" TItem="Town" Placeholder="town" DataSource="Towns">
+												<SfDropDownList TValue="string" TItem="Town" Placeholder="@town" DataSource="Towns">
 													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="Town" ValueChange="OnTownValueChange"></DropDownListEvents>
 												</SfDropDownList>
@@ -167,13 +167,12 @@
 												@{
 													string user = User.Equals("") ? "Select User" : User;
 												}
-												<SfDropDownList TValue="string" TItem="User" Placeholder="user" DataSource="Users">
-													<DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
+												<SfDropDownList TValue="string" TItem="User" Placeholder="@user" DataSource="Users">
+													<DropDownListFieldSettings Value="ID" Text="Username"></DropDownListFieldSettings>
 													<DropDownListEvents TValue="string" TItem="User" ValueChange="OnUserValueChange"></DropDownListEvents>
 												</SfDropDownList>
-												<ValidationMessage For="()=>EmployeeGroup2.UserID" class="text-danger" />
 											</div>
-										</div>
+										</div> 
 										<div class="form-group mt-4 mb-5">
 											<button class="btn btn-success float-end" type="submit">
 												<i class="bi bi-save"></i>
@@ -332,7 +331,7 @@
 		}
 	}
 
-	protected void ClearContent()
+	public void ClearContent()
 	{
 		EmployeeGroup1 = new();
 		EmployeeGroup2 = new();
@@ -358,7 +357,9 @@
 	[Parameter] public EventCallback<int> HandleDepartmentSelectedEvent { get; set; }
 	public async void OnDepartmentValueChange(ChangeEventArgs<string, Department> args) => await HandleDepartmentSelectedEvent.InvokeAsync(int.Parse(args.Value));
 	public void OnSpecializationValueChange(ChangeEventArgs<string, Specialization> args) => EmployeeGroup2.SpecializationID = int.Parse(args.Value);
-	public void OnUserValueChange(ChangeEventArgs<string, User> args) => EmployeeGroup2.UserID = int.Parse(args.Value);
+
+	[Parameter] public EventCallback<int> HandleUserSelectedEvent { get; set; }
+	public async void OnUserValueChange(ChangeEventArgs<string, User> args) => await HandleUserSelectedEvent.InvokeAsync(int.Parse(args.Value));
 
 	public void Dispose() => allState.Action -= StateHasChanged;
 

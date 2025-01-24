@@ -9,6 +9,7 @@
         public const string CountyBaseUrl= "api/county";
         public const string TownBaseUrl= "api/town";
         public const string EmployeeBaseUrl= "api/employee";
+        public const string UserBaseUrl= "api/user";
         
     }
 }

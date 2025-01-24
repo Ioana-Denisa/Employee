@@ -201,7 +201,7 @@ namespace ServerLibrary.Repositories.Implementations
             .AsNoTracking()
             .ToListAsync();
 
-        private async Task<List<User>> GetAllUsers() => await appDbContext
+        public async Task<List<User>> GetAllUsers() => await appDbContext
             .Users
             .AsNoTracking()
             .ToListAsync();
