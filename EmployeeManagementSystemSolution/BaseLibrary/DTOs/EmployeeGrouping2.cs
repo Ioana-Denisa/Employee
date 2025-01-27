@@ -13,8 +13,8 @@ namespace BaseLibrary.DTOs
         public int SpecializationID {  get; set; }
         [Required, Range(1, 99999, ErrorMessage = "You must select town")]
         public int TownID { get; set; }
-        [Required, Range(1, 99999, ErrorMessage = "You must select user")]
-        public int UserID { get; set; }
+        //[Required, Range(1, 99999, ErrorMessage = "You must select user")]
+        //public int UserID { get; set; }
 
     }
 }

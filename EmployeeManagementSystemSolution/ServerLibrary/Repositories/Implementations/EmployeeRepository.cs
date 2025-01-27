@@ -28,8 +28,13 @@ namespace ServerLibrary.Repositories.Implementations
                 .Employees
                 .AsNoTracking()
                 .Include(t => t.Town)
+                    .ThenInclude(b => b.County)
+                        .ThenInclude(c => c.Country)
                 .Include(s => s.Specialization)
+                    .ThenInclude(d => d.Department)
+                        .ThenInclude(div => div.Division)
                 .ToListAsync();
+
             return employees;
         }
 
@@ -53,6 +58,7 @@ namespace ServerLibrary.Repositories.Implementations
                 return new GeneralResponse(false, "This employee already added");
 
             appDbContext.Employees.Add(item);
+
             await Commit();
             return Success();
         }
@@ -69,8 +75,10 @@ namespace ServerLibrary.Repositories.Implementations
             findUser.SpecializationID=item.SpecializationID;
             findUser.TownID=item.TownID;
             findUser.HireDate=item.HireDate;
-            findUser.UserID=item.UserID;
-            await appDbContext.SaveChangesAsync();
+            //findUser.UserID=item.UserID;
+            //findUser.User = item.User;
+            findUser.Town = item.Town;
+            findUser.Specialization = item.Specialization;
             await Commit();
             return Success();
         }

@@ -1,0 +1,78 @@
+﻿
+<SfDialog Width="100px" IsModal="true" ShowCloseIcon="true" @bind-Visible="IsVisible">
+	<DialogEvents OnOpen="OpenContextMenu"></DialogEvents>
+	<DialogTemplates>
+		<Header>Employee Menu</Header>
+		<Content>
+			<div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="ViewClicked">
+				<i class="bi bi-eye text-info"></i>
+				<span id="cursorStyle" class="text-info">View</span>
+			</div>
+
+			<div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="EditClicked">
+				<i class="bi bi-pencil text-primary"></i>
+				<span id="cursorStyle" class="text-primary">Edit</span>
+			</div>
+
+			<div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="DeleteClicked">
+				<i class="bi bi-trash text-danger"></i>
+				<span id="cursorStyle" class="text-danger">Delete</span>
+			</div>
+
+			<hr />
+
+			<div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="AddEquipmentClicked">
+				<i class="bi bi-plus-circle text-success"></i>
+				<span id="cursorStyle" class="text-success">Add Equipment</span>
+			</div>
+
+			<div class="hstack gap-2 mb-2" id="cursorStyle" @onclick="AddRequestEquipmentClicked">
+				<i class="bi bi-plus-circle-dotted text-info"></i>
+				<span id="cursorStyle" class="text-info">Add Request Equipment</span>
+			</div>
+
+
+		</Content>
+	</DialogTemplates>
+
+</SfDialog>
+
+
+<style>
+	#cursorStyle{
+	cursor: pointer;
+	}
+</style>
+
+@code{
+
+	SfDialog? OpenDialog;
+	private bool IsVisible { get; set; } = false;
+
+	[Parameter] public EventCallback HandleViewClicked { get; set; }
+	private async Task ViewClicked() => await HandleViewClicked.InvokeAsync();
+
+	[Parameter] public EventCallback HandleEditClicked { get; set; }
+	private async Task EditClicked() => await HandleEditClicked.InvokeAsync();
+
+	[Parameter] public EventCallback HandleDeleteClicked { get; set; }
+	private async Task DeleteClicked() => await HandleDeleteClicked.InvokeAsync();
+
+	[Parameter] public EventCallback HandleAddEquipmentClicked { get; set; }
+	private async Task AddEquipmentClicked() => await HandleAddEquipmentClicked.InvokeAsync();
+
+	[Parameter] public EventCallback HandleAddRequestEquipmentClicked { get; set; }
+	private async Task AddRequestEquipmentClicked() => await HandleAddRequestEquipmentClicked.InvokeAsync();
+
+	public void OpenContextMenu()
+	{
+		IsVisible = true;
+		StateHasChanged();
+	}
+
+	public void CloseContextMenu()
+	{
+		IsVisible = false;
+		StateHasChanged();
+	}
+}

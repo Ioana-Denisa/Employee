@@ -16,11 +16,11 @@ namespace BaseLibrary.Entities
         [Required]
         public string Address {  get; set; }= string.Empty;
         public int SpecializationID {  get; set; }
-        public int UserID {  get; set; }
+        // int UserID {  get; set; }
         public int TownID {  get; set; }
 
         public Specialization? Specialization { get; set; }
-        public User? User { get; set; }
+       // public User? User { get; set; }
         public Town? Town { get; set; }
     }
 }

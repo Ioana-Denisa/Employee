@@ -26,8 +26,8 @@
 						{
 							<div class="@FloatingNumber1 text-center">1</div>
 							<div class="@Floatingdiv1 format-border"></div>
-							<div class="@FloatingNumber2 text-center">2</div>
-							<div class="@Floatingdiv2 format-border"></div>
+							<div class="@FloatingNumber1 text-center">2</div>
+							<div class="@Floatingdiv1 format-border"></div>
 						}
 					</div>
 				</div>
@@ -53,9 +53,17 @@
 												<InputText @bind-Value="EmployeeGroup1.PhoneNumber" class="form-control" />
 												<ValidationMessage For="()=>EmployeeGroup1.PhoneNumber" class="text-danger" />
 											</div>
-											<div class="form-group mt-2">
+
+										</div>
+									</div>
+
+									<div class="col-lg-4 mt-2">
+										<div class="card-title mb-5 fw-bold" style="font-family:Tahoma">Other Information</div>
+										<div class="card-body">
+
+											<div class="form-group">
 												<label class="form-label">Address</label>
-												<InputText @bind-Value="EmployeeGroup1.Address" class="form-control" />
+												<InputTextArea @bind-Value="EmployeeGroup1.Address" class="form-control" />
 												<ValidationMessage For="()=>EmployeeGroup1.Address" class="text-danger" />
 											</div>
 											<div class="form-group mt-2">
@@ -63,17 +71,15 @@
 												<InputDate @bind-Value="EmployeeGroup1.HireDate" class="form-control" />
 												<ValidationMessage For="()=>EmployeeGroup1.HireDate" class="text-danger" />
 											</div>
-										</div>
-									</div>
 
-									<div class="col-lg-4 mt-2">
-										<div class="card-title mb-5 fw-bold" style="font-family:Tahoma">Other Information</div>
-										<div class="form-group mt-5">
-											<button class="btn btn-primary float-end mt-4 mb-5" type="submit">
-												<i class="bi bi-arrow-right"></i>
-												Next
-											</button>
+											<div class="form-group mt-5">
+												<button class="btn btn-primary float-end mt-4 mb-5" type="submit">
+													<i class="bi bi-arrow-right"></i>
+													Next
+												</button>
+											</div>
 										</div>
+
 									</div>
 									<div class="col-lg-2"></div>
 								</div>
@@ -88,7 +94,7 @@
 									<div class="col-lg-4">
 										<div class="card-title mb-5 fw-bold" style="font-family:Tahoma">Job Information</div>
 										<div class="card-body">
-											<div class="form-group mt-3">
+											<div class="form-group mt">
 												<label class="form-label">Select Division</label>
 												@{
 													string division = Division.Equals("") ? "Select Division" : Division;
@@ -119,6 +125,19 @@
 												</SfDropDownList>
 												<ValidationMessage For="()=>EmployeeGroup2.SpecializationID" class="text-danger" />
 											</div>
+
+											@* <div class="form-group mt-3">
+												<label class="form-label">Select User</label>
+												@{
+													string user = User.Equals("") ? "Select User" : User;
+												}
+												<SfDropDownList TValue="string" TItem="User" Placeholder="@user" DataSource="Users">
+													<DropDownListFieldSettings Value="ID" Text="Username"></DropDownListFieldSettings>
+													<DropDownListEvents TValue="string" TItem="User" ValueChange="OnUserValueChange"></DropDownListEvents>
+												</SfDropDownList>
+												<ValidationMessage For="()=>EmployeeGroup2.UserID" class="text-danger" />
+											</div> *@
+
 											<div class="form-group mt-4 mb-5">
 												<button class="btn btn-primary float-start " type="button" @onclick="PrevClicked">
 													<i class="bi bi-arrow-left"></i>
@@ -162,23 +181,16 @@
 												</SfDropDownList>
 												<ValidationMessage For="()=>EmployeeGroup2.TownID" class="text-danger" />
 											</div>
-											<div class="form-group mt-3">
-												<label class="form-label">Select User</label>
-												@{
-													string user = User.Equals("") ? "Select User" : User;
-												}
-												<SfDropDownList TValue="string" TItem="User" Placeholder="@user" DataSource="Users">
-													<DropDownListFieldSettings Value="ID" Text="Username"></DropDownListFieldSettings>
-													<DropDownListEvents TValue="string" TItem="User" ValueChange="OnUserValueChange"></DropDownListEvents>
-												</SfDropDownList>
+
+											<div class="form-group mt-4 mb-5">
+												<button class="btn btn-success float-end" type="submit">
+													<i class="bi bi-save"></i>
+													Save
+												</button>
 											</div>
-										</div> 
-										<div class="form-group mt-4 mb-5">
-											<button class="btn btn-success float-end" type="submit">
-												<i class="bi bi-save"></i>
-												Save
-											</button>
+
 										</div>
+
 									</div>
 									<div class="col-lg-2"></div>
 								</div>
@@ -195,35 +207,35 @@
 
 <style>
 	.floatingDiv {
-	width: 500px;
-	background: #228ada;
-	height: 10px;
+		width: 500px;
+		background: #228ada;
+		height: 10px;
 	}
 
 	.floatingNumber {
-	border-radius: 50%;
-	color: white;
-	background: #1d1858;
-	width: 20px;
-	height: 20px;
+		border-radius: 50%;
+		color: white;
+		background: #1d1858;
+		width: 20px;
+		height: 20px;
 	}
 
 	.inactive-div {
-	width: 500px;
-	background: gray;
-	height: 10px;
+		width: 500px;
+		background: gray;
+		height: 10px;
 	}
 
 	.inactive-span {
-	border-radius: 50%;
-	color: white;
-	background: gray;
-	width: 20px;
-	height: 20px;
+		border-radius: 50%;
+		color: white;
+		background: gray;
+		width: 20px;
+		height: 20px;
 	}
 
 	.format-border {
-	border-radius: 20px;
+		border-radius: 20px;
 	}
 
 </style>
@@ -243,7 +255,7 @@
 	[Parameter] public List<Department> Departments { get; set; } = new();
 	[Parameter] public List<Specialization> Specializations { get; set; } = new();
 
-	[Parameter] public List<User> Users { get; set; } = new();
+	//[Parameter] public List<User> Users { get; set; } = new();
 
 	public string Title { get; set; } = "Add";
 	public string Division { get; set; } = "";
@@ -252,7 +264,7 @@
 	public string Country { get; set; } = "";
 	public string County { get; set; } = "";
 	public string Town { get; set; } = "";
-	public string User { get; set; } = "";
+	//public string User { get; set; } = "";
 
 
 	string FloatingNumber1 = "floatingNumber";
@@ -289,17 +301,32 @@
 	{
 		if (string.IsNullOrEmpty(EmployeeGroup1.Fullname) || string.IsNullOrEmpty(EmployeeGroup1.PhoneNumber) ||
 		string.IsNullOrEmpty(EmployeeGroup1.Address) || EmployeeGroup1.HireDate == DateTime.MinValue)
+		{
+			Console.WriteLine("Validation group 1 failed");
 			return false;
+		}
 		else
+		{
+			Console.WriteLine("Validation group 1 ok");
 			return true;
+		}
 	}
 
 	private bool ValidateEmployeeGroup2()
 	{
-		if (EmployeeGroup2.UserID == 0 || EmployeeGroup2.TownID == 0 || EmployeeGroup2.SpecializationID == 0)
+		//Console.WriteLine($"UserID: {EmployeeGroup2.UserID}");
+		// EmployeeGroup2.UserID == 0 ||
+
+		if ( EmployeeGroup2.TownID == 0 || EmployeeGroup2.SpecializationID == 0)
+		{
+			Console.WriteLine("Validation group 2 failed: user, town, spec");
 			return false;
+		}
 		else
+		{
+			Console.WriteLine("Validation group 2 ok: user, town, spec");
 			return true;
+		}
 	}
 
 	//Form 1/ 2
@@ -325,7 +352,7 @@
 		{
 			Employee.SpecializationID = EmployeeGroup2.SpecializationID;
 			Employee.TownID = EmployeeGroup2.TownID;
-			Employee.UserID = EmployeeGroup2.UserID;
+			//Employee.UserID = EmployeeGroup2.UserID;
 
 			await HandleSaveEmployeeClickedEvent.InvokeAsync(Employee);
 		}
@@ -358,8 +385,8 @@
 	public async void OnDepartmentValueChange(ChangeEventArgs<string, Department> args) => await HandleDepartmentSelectedEvent.InvokeAsync(int.Parse(args.Value));
 	public void OnSpecializationValueChange(ChangeEventArgs<string, Specialization> args) => EmployeeGroup2.SpecializationID = int.Parse(args.Value);
 
-	[Parameter] public EventCallback<int> HandleUserSelectedEvent { get; set; }
-	public async void OnUserValueChange(ChangeEventArgs<string, User> args) => await HandleUserSelectedEvent.InvokeAsync(int.Parse(args.Value));
+	//[Parameter] public EventCallback<int> HandleUserSelectedEvent { get; set; }
+	//public void OnUserValueChange(ChangeEventArgs<string, User> args) => EmployeeGroup2.UserID = int.Parse(args.Value);
 
 	public void Dispose() => allState.Action -= StateHasChanged;
 

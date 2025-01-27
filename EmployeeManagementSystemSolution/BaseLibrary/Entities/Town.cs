@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BaseLibrary.Entities
 {
@@ -9,6 +10,7 @@ namespace BaseLibrary.Entities
         [Required]
         public string Name { get; set; } = string.Empty;
         public int CountyID { get; set; }
+        [JsonIgnore]
         public List<Employee>? Employees { get; set; }
         public County? County { get; set; }
     }
