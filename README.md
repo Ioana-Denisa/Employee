@@ -1,16 +1,16 @@
-# Employee Management System
+# Employee Management
 
 ##  Description  
-**Employee Management System** is an application designed to streamline the management of employees within a factory environment. It provides an intuitive interface for maintaining employee records, monitoring their activity, and managing user roles. The system is tailored to ensure efficient handling of employee data and interactions.
+**EmployeeManagement** is an application designed to manage protective equipment (e.g., helmets, boots, vests, etc.) within a factory environment. It helps maintain traceability, optimize inventory management, and streamline the distribution process.
 
 ---
 
 ##  Key Benefits  
-- **Comprehensive Employee Database Management**: Add, update, remove, and search for employee records.
-- **Role-Based Access Control**: Securely manage different user roles (Admin, Worker, Staff, and Management).
+- **Traceability** of protective equipment usage  
+- **Efficient tracking** and inventory management  
 - **User-friendly interface** for all roles  
-- **Request Management**: Workers can submit and track requests related to their employment details.
--  **Activity Logs**: Track employee activity and history for better decision-making. 
+- **Low stock notifications** for timely restocking  
+- **Quick search** for employees and equipment details  
 
 ---
 
@@ -18,10 +18,9 @@
 ## User Story    
 
 1. **Admin**  
-   - Manage (add, update, or delete) database records.
-   - Assign and update user roles. 
+   - Manage (add, update, or delete) database records.  
 
-2. **User**  
+2. **Worker**  
    - View personal equipment history.  
    - Submit requests for equipment.  
    - Check the status of submitted requests.  
