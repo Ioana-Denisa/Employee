@@ -45,27 +45,32 @@
 }
 
 <AddOrUpdateEmployeePage @ref="addOrUpdateEmployee"
-						 Employee="Employee"
-						 ShowAddOrUpdateEmployee="ShowAddOrUpdatePage"
-						 NotifyParentFormCloseClicked="NotifyParentFormCloseClicked"
-						 Counties="SelectedCounties"
-						 Countries="DefaultCountries"
-						 Towns="SelectedTowns"
-						 Divisions="DefaultDivisions"
-						 Departments="SelectedDepartments"
-						 Specializations="SelectedSpecializations"
-						 HandleCountrySelectedEvent="HandleCountrySelectedEvent"
-						 HandleCountySelectedEvent="HandleCountySelectedEvent"
-						 HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
-						 HandleDivisionSelectedEvent="HandleDivisionSelectedEvent"
-						 HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
+Employee="Employee"
+ShowAddOrUpdateEmployee="ShowAddOrUpdatePage"
+NotifyParentFormCloseClicked="NotifyParentFormCloseClicked"
+Counties="SelectedCounties"
+Countries="DefaultCountries"
+Towns="SelectedTowns"
+Divisions="DefaultDivisions"
+Departments="SelectedDepartments"
+Specializations="SelectedSpecializations"
+HandleCountrySelectedEvent="HandleCountrySelectedEvent"
+HandleCountySelectedEvent="HandleCountySelectedEvent"
+HandleDepartmentSelectedEvent="HandleDepartmentSelectedEvent"
+HandleDivisionSelectedEvent="HandleDivisionSelectedEvent"
+HandleSaveEmployeeClickedEvent="HandleSaveEmployeeClickedEvent" />
+
+<EmployeeDetailsPage EmployeeDetails="Employee"
+					 ShowDetailsPage="ShowDetailsPage" 
+					 HandleDetailsPageCloseBtnClicked="HandleDetailsPageCloseBtnClicked" />
+
 
 <ContextMenu @ref="contextMenu"
-			 HandleViewClicked="ViewClicked"
-			 HandleEditClicked="EditClicked"
-			 HandleDeleteClicked="DeleteClicked"
-			 HandleAddEquipmentClicked="AddEquipmentClicked"
-			 HandleAddRequestEquipmentClicked="AddRequestEquipmentClicked" />
+HandleViewClicked="ViewClicked"
+HandleEditClicked="EditClicked"
+HandleDeleteClicked="DeleteClicked"
+HandleAddEquipmentClicked="AddEquipmentClicked"
+HandleAddRequestEquipmentClicked="AddRequestEquipmentClicked" />
 
 @code {
 	public List<Employee> Employees { get; set; } = [];
@@ -209,24 +214,15 @@
 		ShowMainPage = false;
 	}
 
+	public bool ShowDetailsPage { get; set; } = false;
 	void ViewClicked()
 	{
-		addOrUpdateEmployee!.Employee.ID = SelectedEmployee.ID;
-		addOrUpdateEmployee!.EmployeeGroup1.Fullname = SelectedEmployee.Fullname;
-		addOrUpdateEmployee!.EmployeeGroup1.PhoneNumber = SelectedEmployee.PhoneNumber;
-		addOrUpdateEmployee!.EmployeeGroup1.Address = SelectedEmployee.Address;
-		addOrUpdateEmployee!.EmployeeGroup1.HireDate = SelectedEmployee.HireDate;
-		addOrUpdateEmployee!.Division = SelectedEmployee.Specialization!.Department!.Division!.Name;
-		addOrUpdateEmployee!.Department = SelectedEmployee.Specialization!.Department!.Name;
-		addOrUpdateEmployee!.Specialization = SelectedEmployee.Specialization!.Name;
-		addOrUpdateEmployee!.Country = SelectedEmployee.Town!.County!.Country!.Name;
-		addOrUpdateEmployee!.County = SelectedEmployee.Town!.County!.Name;
-		addOrUpdateEmployee!.Town = SelectedEmployee.Town!.Name;
-		addOrUpdateEmployee.Title = "View";
-		SelectedEmployee = new();
+
+		Employee = SelectedEmployee;
 		contextMenu!.CloseContextMenu();
-		ShowAddOrUpdatePage = true;
+		ShowDetailsPage = true;
 		ShowMainPage = false;
+		SelectedEmployee = new();
 	}
 
 	private async Task DeleteClicked()
@@ -258,4 +254,4 @@
 }
 
 
-@* 		//10:06 *@
+@* 10:12 *@
